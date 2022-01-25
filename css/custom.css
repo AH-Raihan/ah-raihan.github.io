@@ -35,6 +35,7 @@ section {
 }
 .mynavbar .logo {
   margin: 10px 0;
+  max-width: 180px;
 }
 .mynavbar .logo img {
   width: 100%;
@@ -46,15 +47,41 @@ section {
   text-align: right;
   margin: 10px 0;
 }
-.mynavbar .container ul li {
+.mynavbar .container .default li{
   list-style: none;
   display: inline-block;
 }
-.mynavbar .container ul li a {
+.mobileNav li {
+  list-style: none;
+  display: block;
+}
+.mynavbar .container ul li a,
+.mobileNav li a {
   text-decoration: none;
   color: #82ddfd;
   font-size: 26px;
   margin: 10px;
+}
+.mobileNav {
+  display: none;
+  text-align: center !important;
+  margin: 0 !important;
+}
+.navIcon {
+  z-index: 11111111111111111111;
+  cursor: pointer;
+  display: none;
+  flex-direction: column;
+  margin: 10px;
+  float: right;
+  text-align: right;
+}
+.navIcon span {
+  width: 35px;
+  height: 5px;
+  background: #62eeef;
+  display: inline-block;
+  margin: 4px 0;
 }
 .hero-section {
   padding: 10px;
@@ -151,44 +178,74 @@ section .title h1 {
   justify-content: center;
   align-items: center;
 }
-.skills-container h2{
+.skills-container h2 {
   color: #ade5ff;
   text-align: center;
   font-weight: bolder;
   font-size: 20px;
 }
 
-
 /* ------------About section---------- */
 
-.profile h2{
+.profile h2 {
   background: #002252;
-  color: #52C6F6;
+  color: #52c6f6;
   margin: 10px 0;
   padding: 5px;
-  border: 4px dashed #52C6F6;
+  border: 4px dashed #52c6f6;
   font-size: 30px;
   text-align: center;
 }
-.aboutMeContaner{
-  background: #044C7E;
-  border: 5px dashed #63E8FE;
+.aboutMeContaner {
+  background: #044c7e;
+  border: 5px dashed #63e8fe;
 }
-.aboutMeContaner p{
+.aboutMeContaner p {
   font-size: 24px;
   color: #c8ebff;
   margin: 35px 0;
 }
-.aboutMeContaner p a{text-decoration: none;color: white;}
-
+.aboutMeContaner p a {
+  text-decoration: none;
+  color: white;
+}
 
 /* -------------- contact section ----------------- */
 
-.contact-form input,.contact-form textarea{
+.contact-form input,
+.contact-form textarea {
   padding: 10px 5px;
   width: 100%;
   outline: none;
   margin: 8px 0;
   border: none;
   background: #b2f4ff;
+}
+
+/* ------- responsive ------ */
+@media (max-width: 768px) {
+  .navIcon {
+    display: flex;
+  }
+  .mynavbar .container .default {
+    display: none !important;
+  }
+  .mobileNav {
+    display: none;
+    position: fixed;
+    top: 0;
+    z-index: 1111111111;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    margin: auto !important;
+    background: #002252f5;
+    max-width: 100%;
+  }
+  .mobileNav li {
+    display: block;
+    text-align: center;
+    margin: 60px 0;
+    padding: 10px;
+  }
 }

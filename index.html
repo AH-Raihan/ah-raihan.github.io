@@ -14,15 +14,23 @@
     <section id="home">
         <div class="mynavbar">
             <div class="container">
-                <div class="logo col-sm-2">
+                <div class="logo">
                     <img src="img/AHR-logo-white.png" alt="AHR Logo">
                 </div>
-                <ul class="col-sm-10">
+                <div class="navIcon" onclick="navUlshow()" id="navIcon"><span></span><span></span><span></span></div>
+                <ul class="col-sm-10 default">
                     <li><a href="#home">HOME</a></li>
                     <li><a href="#projects">PROJECTS</a></li>
                     <li><a href="#skills">SKILLS</a></li>
                     <li><a href="#about">ABOUT</a></li>
                     <li><a href="#contact">CONTACT</a></li>
+                </ul>
+                <ul class="col-sm-10 mobileNav" id="navUl">
+                    <li><a onclick="navUlhide()" href="#home">HOME</a></li>
+                    <li><a onclick="navUlhide()" href="#projects">PROJECTS</a></li>
+                    <li><a onclick="navUlhide()" href="#skills">SKILLS</a></li>
+                    <li><a onclick="navUlhide()" href="#about">ABOUT</a></li>
+                    <li><a onclick="navUlhide()" href="#contact">CONTACT</a></li>
                 </ul>
             </div>
         </div>
@@ -33,7 +41,7 @@
                     <div class="titleName">I am <h1 id="changeablename">Azizul Hasan Raihan</h1>
                     </div>
                 </div>
-                <a  href="#">DOWNLOAD MY CV</a><br>
+                <a href="#">DOWNLOAD MY CV</a><br>
                 <a href="#contact">HIRE ME</a>
             </div>
         </div>
@@ -187,21 +195,38 @@
             </div>
         </div>
     </section>
-    
+
 
     <script>
-        var changeablename= document.getElementById('changeablename');
-        var names=['Azizul Hasan Raihan','a Web Developer'];
-        var count='0';
-        function changeName(){
-            if(count==='0'){
-                count='1';
-            }else{
-                count='0'
+        var changeablename = document.getElementById('changeablename');
+        var names = ['Azizul Hasan Raihan', 'a Web Developer'];
+        var count = '0';
+
+        function changeName() {
+            if (count === '0') {
+                count = '1';
+            } else {
+                count = '0'
             }
-            changeablename.innerHTML=names[count];
+            changeablename.innerHTML = names[count];
         }
-        setInterval(changeName,3000);
+        setInterval(changeName, 3000);
+
+        var navUl = document.getElementById('navUl');
+        var navIcon = document.getElementById('navIcon');
+
+        function navUlhide() {
+            navUl.style.display = "none";
+        }
+
+        function navUlshow() {
+            if(navUl.style.display === "block"){
+                navUl.style.display = "none";
+            }else{
+                navUl.style.display = "block";
+            }
+            
+        }
     </script>
 </body>
 
