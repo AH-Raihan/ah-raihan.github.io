@@ -1,0 +1,194 @@
+* {
+  scroll-behavior: smooth;
+}
+body {
+  font-family: monospace;
+}
+section {
+  background: url("../img/demo1.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  min-height: 100vh;
+  padding-top: 100px;
+}
+#home {
+  width: 100%;
+}
+.hero-container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+.mynavbar {
+  background: #00252a8c;
+  position: fixed;
+  top: 0;
+  z-index: 11111111111;
+  margin: 0 auto;
+  width: 100%;
+  box-shadow: 0 4px 12px 2px #000;
+}
+.mynavbar .container {
+  display: flex;
+  justify-content: space-between;
+}
+.mynavbar .logo {
+  margin: 10px 0;
+}
+.mynavbar .logo img {
+  width: 100%;
+  mix-blend-mode: color-dodge;
+  filter: brightness(0.9);
+}
+
+.mynavbar .container ul {
+  text-align: right;
+  margin: 10px 0;
+}
+.mynavbar .container ul li {
+  list-style: none;
+  display: inline-block;
+}
+.mynavbar .container ul li a {
+  text-decoration: none;
+  color: #82ddfd;
+  font-size: 26px;
+  margin: 10px;
+}
+.hero-section {
+  padding: 10px;
+  width: 100%;
+  background: #0118229e;
+  border: 8px dashed #156fab;
+}
+
+.hero-section p {
+  color: #a6f0ff;
+  font-size: 39px;
+}
+
+.hero-section .titleName {
+  color: #a6f0ff;
+  font-size: 40px;
+}
+
+.hero-section .titleName h1 {
+  display: inline-block;
+}
+
+#home .hero a {
+  padding: 10px;
+  background: #53c0f7;
+  border: 5px dashed #156fab;
+  font-size: 24px;
+  display: inline-block;
+  margin: 10px 0;
+  outline: none;
+  text-decoration: none;
+  color: #000000;
+  width: auto;
+}
+.hero {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+/*------------ Project section-------------- */
+
+.thumbnail img {
+  width: 100%;
+}
+
+section .title {
+  display: block;
+  text-align: center;
+  margin: 0 auto 25px;
+}
+
+section .title h1 {
+  background: #06234ac9;
+  display: inline-block;
+  padding: 10px;
+  border: 7px dashed #6cccdc;
+  color: #effdff;
+  font-size: 34px;
+}
+.projects-container {
+  background: #06263ed4;
+  border: 5px dashed #a4e5ff;
+  padding: 10px;
+  margin: 10px 0;
+}
+.projects-container h2 {
+  color: #63e8fe;
+  text-align: center;
+  font-size: 26px;
+  margin: 11px 0;
+}
+
+.projects-container button {
+  text-align: center;
+  display: block;
+  padding: 5px;
+  margin: 10px 0;
+  width: 100%;
+  border: none;
+  color: #42f1ff;
+  background: #051621;
+  clip-path: polygon(0% 50%, 10% 0%, 90% 0%, 100% 50%, 90% 100%, 10% 100%);
+}
+
+/* -----------skills section---------------- */
+
+.skills-container {
+  background: #06263ed4;
+  border: 3px dashed #a4e5ff;
+  padding: 25px;
+  margin: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.skills-container h2{
+  color: #ade5ff;
+  text-align: center;
+  font-weight: bolder;
+  font-size: 20px;
+}
+
+
+/* ------------About section---------- */
+
+.profile h2{
+  background: #002252;
+  color: #52C6F6;
+  margin: 10px 0;
+  padding: 5px;
+  border: 4px dashed #52C6F6;
+  font-size: 30px;
+  text-align: center;
+}
+.aboutMeContaner{
+  background: #044C7E;
+  border: 5px dashed #63E8FE;
+}
+.aboutMeContaner p{
+  font-size: 24px;
+  color: #c8ebff;
+  margin: 35px 0;
+}
+.aboutMeContaner p a{text-decoration: none;color: white;}
+
+
+/* -------------- contact section ----------------- */
+
+.contact-form input,.contact-form textarea{
+  padding: 10px 5px;
+  width: 100%;
+  outline: none;
+  margin: 8px 0;
+  border: none;
+  background: #b2f4ff;
+}
