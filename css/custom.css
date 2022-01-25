@@ -47,7 +47,7 @@ section {
   text-align: right;
   margin: 10px 0;
 }
-.mynavbar .container .default li{
+.mynavbar .container .default li {
   list-style: none;
   display: inline-block;
 }
@@ -61,7 +61,13 @@ section {
   color: #82ddfd;
   font-size: 26px;
   margin: 10px;
+  transition: .2s;
 }
+.mynavbar .container ul li a:hover,
+.mobileNav li a:hover {
+  text-shadow: 0 0 7px #579cb5;
+}
+
 .mobileNav {
   display: none;
   text-align: center !important;
@@ -106,15 +112,24 @@ section {
 
 #home .hero a {
   padding: 10px;
-  background: #53c0f7;
-  border: 5px dashed #156fab;
+  border: 5px dashed #24a8ff;
   font-size: 24px;
   display: inline-block;
   margin: 10px 0;
   outline: none;
   text-decoration: none;
-  color: #000000;
   width: auto;
+  transition: .4s;
+  /* text-shadow: 0 0 10px #a6efff; */
+  box-shadow: 0 0 10px #02234d;
+  color: #bbe8ff;
+  background: #0b346c;
+}
+#home .hero a:hover{
+  text-shadow: 0 0 10px #a6efff;
+  box-shadow: 0 0 10px #02234d;
+  color: #000000;
+  background: #53c0f7;;
 }
 .hero {
   position: absolute;
@@ -155,7 +170,8 @@ section .title h1 {
   margin: 11px 0;
 }
 
-.projects-container button {
+.projects-container a {
+  text-decoration: none;
   text-align: center;
   display: block;
   padding: 5px;
@@ -165,6 +181,18 @@ section .title h1 {
   color: #42f1ff;
   background: #051621;
   clip-path: polygon(0% 50%, 10% 0%, 90% 0%, 100% 50%, 90% 100%, 10% 100%);
+}
+button.seemorebtn {
+  background: #061a3cbf;
+  border: 5px dashed #35fdff;
+  padding: 8px;
+  text-align: center;
+  margin: 5px auto;
+  color: #35fdff;
+  transition: .2s;
+}
+button.seemorebtn:hover{
+  box-shadow: 0 2px 10px 1px #000;
 }
 
 /* -----------skills section---------------- */
@@ -219,7 +247,56 @@ section .title h1 {
   outline: none;
   margin: 8px 0;
   border: none;
-  background: #b2f4ff;
+  color: white;
+  background: #022758;
+}
+/* ===========music======== */
+.music{
+  position: fixed;
+  bottom: 10px;
+  right: 10px;
+}
+#musicplaybtn, #musicvolume{
+  background: #53c0f7;
+  font-size: 12px;
+  border: none;
+  outline: none;
+  color: #000;
+}
+#musicvolume{
+  transform: rotate(-90deg) translateX(78px) translateY(95px);
+}
+/*----------------- rain effect----------- */
+.rain {
+  background: #cce1ffb6;
+  width: 13px;
+  height: 13px;
+  z-index: 11111111111;
+  display: inline-block;
+  position: fixed;
+  transition: all 0.5s;
+  animation: rain 0.9s infinite ease-in-out;
+  opacity: 0.5;
+}
+
+@keyframes rain {
+  0% {
+    transform: translateY(30px);
+    background: #0022528f;
+  }
+  25% {
+    background: #42f2ff9b;
+  }
+  50% {
+    background: #f6faff83;
+  }
+  75% {
+    background: #4f37dd85;
+  }
+  100% {
+    transform: translateY(-30px);
+    background: #96a1ff93;
+  }
 }
 
 /* ------- responsive ------ */

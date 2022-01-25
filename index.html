@@ -12,6 +12,7 @@
 </head>
 
 <body>
+
     <section id="home">
         <div class="mynavbar">
             <div class="container">
@@ -63,7 +64,7 @@
                             <img src="img/Alor Dishari.jpg" alt="">
                         </div>
                         <h2>E-COMMERCE SITE</h2>
-                        <button>Live View</button>
+                        <a href="#">Live View</a>
                     </div>
                 </div>
                 <div class="col-sm-3">
@@ -72,7 +73,7 @@
                             <img src="img/ToDo.jpg" alt="">
                         </div>
                         <h2>TO-DO APP</h2>
-                        <button>Live View</button>
+                        <a href="#">Live View</a>
                     </div>
                 </div>
                 <div class="col-sm-3">
@@ -81,7 +82,7 @@
                             <img src="img/Hostel Manage.jpg" alt="">
                         </div>
                         <h2>HOSTEL MANAGE</h2>
-                        <button>Live View</button>
+                        <a href="#">Live View</a>
                     </div>
                 </div>
                 <div class="col-sm-3">
@@ -90,10 +91,12 @@
                             <img src="img/dynamic certificate.jpg" alt="">
                         </div>
                         <h2>DYNAMIC CERTIFICATE</h2>
-                        <button>Live View</button>
+                        <a href="#">Live View</a>
                     </div>
                 </div>
             </div>
+
+            <button class="seemorebtn">See More</button>
         </div>
     </section>
 
@@ -197,11 +200,19 @@
         </div>
     </section>
 
-
+    <div class="music">
+        <audio id="music" src="music1.mp3"></audio>
+        <input type="range" style="display: none;" id="musicvolume" oninput="musicVolume();" value="0.1" min="0" max="1"
+            step="0.1">
+        <button id="musicplaybtn" onclick="musicPlay();">Music</button>
+    </div>
     <script>
         var changeablename = document.getElementById('changeablename');
         var names = ['Azizul Hasan Raihan', 'a Web Developer'];
         var count = '0';
+
+
+
 
         function changeName() {
             if (count === '0') {
@@ -221,13 +232,62 @@
         }
 
         function navUlshow() {
-            if(navUl.style.display === "block"){
+            if (navUl.style.display === "block") {
                 navUl.style.display = "none";
-            }else{
+            } else {
                 navUl.style.display = "block";
             }
-            
+
         }
+
+
+        var body = document.querySelector('body');
+
+        function effect() {
+
+
+            for (let i = 0; i < 40; i++) {
+                let elm = document.createElement('span');
+                elm.setAttribute('class', 'rain');
+                let xpos = Math.random() * window.innerWidth;
+                let ypos = Math.random() * window.innerHeight;
+
+                elm.style.top = ypos + "px";
+                elm.style.left = xpos + "px";
+
+                body.append(elm);
+            }
+        }
+
+        function effectRemove() {
+            let elm = document.getElementsByClassName('rain');
+
+            for (let i = 0; i < 40; i++) {
+                elm[i].remove();
+            }
+        }
+        effect();
+        setInterval(effect, 3000);
+        setInterval(effectRemove, 3000);
+
+        var music = document.getElementById('music');
+        var musicplaybtn = document.getElementById('musicplaybtn');
+        var volumeVal = document.getElementById('musicvolume');
+
+        function musicPlay() {
+            if (volumeVal.style.display === 'none') {
+                volumeVal.style.display = 'inline-block';
+            } else {
+                volumeVal.style.display = 'none';
+            }
+            music.play();
+        }
+        music.volume = 0.1;
+
+        function musicVolume() {
+            music.volume = volumeVal.value;
+        }
+        
     </script>
 </body>
 
