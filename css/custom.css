@@ -123,7 +123,7 @@ section {
   /* text-shadow: 0 0 10px #a6efff; */
   box-shadow: 0 0 10px #02234d;
   color: #bbe8ff;
-  background: #0b346c;
+  background: #0b346ccf;
 }
 #home .hero a:hover{
   text-shadow: 0 0 10px #a6efff;
