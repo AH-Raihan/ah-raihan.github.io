@@ -139,8 +139,19 @@ section {
 
 /*------------ Project section-------------- */
 
+.thumbnail{
+  position: relative;
+  padding-top: 154%;
+}
 .thumbnail img {
   width: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 100%;
+  object-fit: cover;
 }
 
 section .title {
