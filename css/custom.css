@@ -139,11 +139,14 @@ section {
 
 /*------------ Project section-------------- */
 
-.thumbnail{
+.thumbnail.profile{
   position: relative;
   padding-top: 154%;
 }
 .thumbnail img {
+  width: 100%;
+}
+.thumbnail.profile img {
   width: 100%;
   position: absolute;
   top: 0;
