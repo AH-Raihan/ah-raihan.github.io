@@ -251,6 +251,10 @@ button.seemorebtn:hover{
   text-decoration: none;
   color: white;
 }
+.thumbnail .profile img{
+  max-width:250px;
+  margin:auto;
+}
 
 /* -------------- contact section ----------------- */
 
