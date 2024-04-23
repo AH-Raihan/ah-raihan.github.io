@@ -6,7 +6,7 @@ body {
   font-family: 'Anonymous Pro', monospace;
 }
 section {
-  background: url("../img/demo1.jpg");
+  background: linear-gradient(#33333330, #33333370), url('../img/mysifi.jpg');
   background-size: cover;
   background-repeat: no-repeat;
   min-height: 100vh;
@@ -94,7 +94,7 @@ section {
   padding: 10px;
   width: 100%;
   background: #0118229e;
-  border: 8px dashed #156fab;
+  border: dss;
 }
 
 .hero-section p {
@@ -113,7 +113,8 @@ section {
 
 #home .hero a {
   padding: 10px;
-  border: 5px dashed #24a8ff;
+  border: 2px solid #24a8ff;
+  filter: drop-shadow(2px 4px 6px black);
   font-size: 24px;
   display: inline-block;
   margin: 10px 0;
@@ -168,13 +169,13 @@ section .title h1 {
   background: #06234ac9;
   display: inline-block;
   padding: 10px;
-  border: 7px dashed #6cccdc;
+  border: 18px dashed #6cccdc;
   color: #effdff;
   font-size: 34px;
 }
 .projects-container {
   background: #06263ed4;
-  border: 5px dashed #a4e5ff;
+  border: 2px dotted #a4e5ff;
   padding: 10px;
   margin: 10px 0;
 }
