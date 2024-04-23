@@ -4,6 +4,7 @@
 }
 body {
   font-family: 'Anonymous Pro', monospace;
+   scroll-behavior: smooth;
 }
 section {
   background: linear-gradient(#33333330, #33333370), url('../img/mysifi.jpg');
@@ -11,6 +12,7 @@ section {
   background-repeat: no-repeat;
   min-height: 100vh;
   padding-top: 100px;
+  background-attachment:fixed;
 }
 #home {
   width: 100%;
@@ -198,7 +200,7 @@ section .title h1 {
   background: #051621;
   clip-path: polygon(0% 50%, 10% 0%, 90% 0%, 100% 50%, 90% 100%, 10% 100%);
 }
-button.seemorebtn {
+a.seemorebtn {
   background: #061a3cbf;
   border: 5px dashed #35fdff;
   padding: 8px;
@@ -207,7 +209,7 @@ button.seemorebtn {
   color: #35fdff;
   transition: .2s;
 }
-button.seemorebtn:hover{
+a.seemorebtn:hover{
   box-shadow: 0 2px 10px 1px #000;
 }
 
