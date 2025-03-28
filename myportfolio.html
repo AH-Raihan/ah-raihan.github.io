@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="google-site-verification" content="XSe1MP-GFdJis0QKzRETiP9vTm2tb1YukY73d8DlUas" />
+    <meta name="description" content="Explore the portfolio of Azizul Hasan Raihan, a skilled software engineer and web developer from Dhaka, Bangladesh, showcasing innovative projects and expertise in full-stack development." />
+    <meta name="keywords" content="Azizul Hasan Raihan, A.H.Raihan, software engineer, web developer, full stack developer, Dhaka, Bangladesh, Relic Software, portfolio" />
+    <meta name="robots" content="index, follow" />
+    <meta name="author" content="Azizul Hasan Raihan (A.H.Raihan)" />
+    <title>Azizul Hasan Raihan - A.H.Raihan | Software Engineer & Web Developer</title>
+    <link rel="canonical" href="https://ah-raihan.github.io/" />
+    <link rel="shortcut icon" href="img/LOGO.jpg" type="image/x-icon">
+
+    <!-- Open Graph Tags -->
+    <meta property="og:site_name" content="Azizul Hasan Raihan" />
+    <meta property="og:url" content="https://ah-raihan.github.io/" />
+    <meta property="og:title" content="Azizul Hasan Raihan - Software Engineer & Web Developer" />
+    <meta property="og:description" content="Discover the digital brilliance of Azizul Hasan Raihan, a leading software engineer and web developer in Dhaka, Bangladesh. Explore innovative projects and exceptional web experiences." />
+    <meta property="og:image" content="https://ah-raihan.github.io/img/azizul hasan raihan AHR144.jpg" />
+    <meta property="og:type" content="website" />
+
+    <!-- Bootstrap 5 CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <style>
+        :root {
+            --primary-color: #52c6f6;
+            --dark-bg: #070707;
+            --light-text: #ffffff;
+        }
+        body {
+            background: var(--dark-bg);
+            color: var(--light-text);
+            font-family: 'Poppins', sans-serif;
+            overflow-x: hidden;
+            position: relative;
+        }
+        .mynavbar {
+            background: rgba(0, 0, 0, 0.8);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        .mynavbar .logo img {
+            max-height: 50px;
+        }
+        .navIcon span {
+            background: var(--light-text);
+            display: block;
+            height: 3px;
+            margin: 5px 0;
+            width: 25px;
+            transition: all 0.3s ease;
+        }
+        .navIcon.active span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
+        .navIcon.active span:nth-child(2) { opacity: 0; }
+        .navIcon.active span:nth-child(3) { transform: rotate(-45deg) translate(7px, -7px); }
+        .mobileNav {
+            display: none;
+            background: var(--dark-bg);
+            position: absolute;
+            top: 60px;
+            width: 100%;
+            padding: 20px;
+        }
+        .mobileNav li a { color: var(--primary-color); font-weight: bold; }
+        .hero-container {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            background: linear-gradient(135deg, rgba(7, 7, 7, 0.9), rgba(82, 198, 246, 0.2));
+        }
+        .hero h1 {
+            font-size: 3rem;
+            color: var(--primary-color);
+            transition: color 0.5s ease;
+        }
+        .hero a {
+            display: inline-block;
+            margin: 10px;
+            padding: 10px 20px;
+            background: var(--primary-color);
+            color: var(--dark-bg);
+            text-decoration: none;
+            border-radius: 25px;
+            transition: transform 0.3s ease;
+        }
+        .hero a:hover { transform: scale(1.1); }
+        .title h1 {
+            text-align: center;
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            margin: 40px 0;
+            position: relative;
+        }
+        .title h1::after {
+            content: '';
+            width: 50px;
+            height: 3px;
+            background: var(--primary-color);
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        .projects-container, .skills-container {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 10px;
+            transition: transform 0.3s ease;
+        }
+        .projects-container:hover, .skills-container:hover { transform: translateY(-10px); }
+        .projects-container img { max-width: 100%; border-radius: 5px; }
+        .projects-container a, .seemorebtn {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: bold;
+        }
+        .seemorebtn {
+            display: block;
+            text-align: center;
+            margin: 20px auto;
+            padding: 10px 30px;
+            background: var(--primary-color);
+            color: var(--dark-bg);
+            border-radius: 25px;
+        }
+        .contact-form input, .contact-form textarea {
+            width: 100%;
+            margin: 10px 0;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            background: rgba(255, 255, 255, 0.2);
+            color: var(--light-text);
+        }
+        .contact-form input[type="submit"] {
+            background: var(--primary-color);
+            color: var(--dark-bg);
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+        .contact-form input[type="submit"]:hover { background: #3ba8d8; }
+        footer {
+            text-align: center;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.8);
+            margin-top: 40px;
+        }
+        .rain {
+            position: fixed;
+            top: 0;
+            width: 2px;
+            height: 20px;
+            background: var(--primary-color);
+            animation: fall 1s linear infinite;
+            z-index: 1111111;
+        }
+        @keyframes fall {
+            to { transform: translateY(100vh); opacity: 0; }
+        }
+        @media (max-width: 768px) {
+            .default { display: none; }
+            .mobileNav { display: block; }
+            .hero h1 { font-size: 2rem; }
+        }
+    </style>
+    <!-- Structured Data (unchanged) -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Person",
+      "name": "Azizul Hasan Raihan",
+      "alternateName": "A.H.Raihan",
+      "description": "Azizul Hasan Raihan is a full stack web developer, CEO, and owner of Relic Software. He excels in creating innovative digital solutions and programming for diverse industries.",
+      "jobTitle": "CEO & Full Stack Web Developer",
+      "worksFor": {
+        "@type": "Organization",
+        "name": "Relic Software",
+        "url": "https://relicsoftwares.com"
+      },
+      "url": "https://relicsoftwares.com",
+      "image": "https://ah-raihan.github.io/img/azizul hasan raihan AHR144.jpg",
+      "sameAs": [
+        "https://www.facebook.com/web.ahraihan",
+        "https://www.linkedin.com/in/a-h-raihan-130689217",
+        "https://github.com/ah-raihan",
+        "https://www.youtube.com/channel/UCqAC2pIry7zEatl5p9GZenA",
+        "https://www.instagram.com/web.ahraihan/",
+        "https://twitter.com/AhraihanWeb",
+        "https://linktr.ee/web.ahraihan",
+        "https://ah-raihan.github.io"
+      ],
+      "knowsAbout": [
+        "Web Development",
+        "Full Stack Programming",
+        "Laravel",
+        "JavaScript",
+        "Leaflet.js",
+        "HTML/CSS",
+        "PHP"
+      ],
+      "alumniOf": [
+        {
+          "@type": "EducationalOrganization",
+          "name": "Madrasatu Ibadir Rahman"
+        }
+      ],
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Tongi",
+        "addressRegion": "Gazipur",
+        "addressCountry": "Bangladesh"
+      },
+      "birthPlace": {
+        "@type": "Place",
+        "address": {
+          "@type": "PostalAddress",
+          "addressCountry": "Bangladesh"
+        }
+      }
+    }
+    </script>
+    <!-- Google Adsense (unchanged) -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2041268521858253" crossorigin="anonymous"></script>
+</head>
+<body>
+    <!-- Navigation -->
+    <section id="home">
+        <div class="mynavbar">
+            <div class="container">
+                <div class="logo">
+                    <img src="images/AHR-logo-white.png" alt="AHR Logo">
+                </div>
+                <div class="navIcon" onclick="navUlshow()" id="navIcon"><span></span><span></span><span></span></div>
+                <ul class="col-sm-10 default list-unstyled d-flex justify-content-end gap-4">
+                    <li><a href="#home">HOME</a></li>
+                    <li><a href="#projects">PROJECTS</a></li>
+                    <li><a href="#skills">SKILLS</a></li>
+                    <li><a href="#about">ABOUT</a></li>
+                    <li><a href="#contact">CONTACT</a></li>
+                </ul>
+                <ul class="col-sm-10 mobileNav list-unstyled" id="navUl">
+                    <li><a onclick="navUlhide()" href="#home">HOME</a></li>
+                    <li><a onclick="navUlhide()" href="#projects">PROJECTS</a></li>
+                    <li><a onclick="navUlhide()" href="#skills">SKILLS</a></li>
+                    <li><a onclick="navUlhide()" href="#about">ABOUT</a></li>
+                    <li><a onclick="navUlhide()" href="#contact">CONTACT</a></li>
+                </ul>
+            </div>
+        </div>
+        <!-- Hero Section -->
+        <div class="hero-container container">
+            <div class="hero">
+                <p>Hi,</p>
+                <div class="titleName">
+                    I am <h1 id="changeablename">Azizul Hasan Raihan</h1>
+                </div>
+                <a href="https://relicsoftwares.com">Relic Software</a><br>
+                <a href="#contact">HIRE ME</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section id="projects">
+        <div class="title">
+            <h1>PROJECTS</h1>
+        </div>
+        <div class="container">
+            <div class="row g-4">
+                <div class="col-sm-3">
+                    <div class="projects-container">
+                        <div class="thumbnail">
+                            <img src="projects/madrasatuir.com.jpeg" alt="School Management System">
+                        </div>
+                        <h2>EMS</h2>
+                        <a href="https://www.madrasatuir.com/">Live View</a>
+                    </div>
+                </div>
+                <div class="col-sm-3">
+                    <div class="projects-container">
+                        <div class="thumbnail">
+                            <img src="projects/azhanshop.com.jpeg" alt="E-Commerce Site">
+                        </div>
+                        <h2>E-Commerce Site</h2>
+                        <a href="https://alordisharibd.com/?devshow">Live View</a>
+                    </div>
+                </div>
+                <div class="col-sm-3">
+                    <div class="projects-container">
+                        <div class="thumbnail">
+                            <img src="projects/news1.png" alt="News Portal">
+                        </div>
+                        <h2>News Portal</h2>
+                        <a href="https://www.messianfcb.com/">Live View</a>
+                    </div>
+                </div>
+                <div class="col-sm-3">
+                    <div class="projects-container">
+                        <div class="thumbnail">
+                            <img src="projects/game1.png" alt="TicTac Game">
+                        </div>
+                        <h2>TicTac Game</h2>
+                        <a href="https://ah-raihan.github.io/tictac/">Live View</a>
+                    </div>
+                </div>
+            </div>
+            <a class="seemorebtn" href="https://linktr.ee/web.ahraihan">See More</a>
+        </div>
+    </section>
+
+    <!-- Skills Section -->
+    <section id="skills">
+        <div class="title">
+            <h1>SKILLS</h1>
+        </div>
+        <div class="container">
+            <div class="row g-4">
+                <div class="col-sm-3"><div class="skills-container"><h2>HTML</h2></div></div>
+                <div class="col-sm-3"><div class="skills-container"><h2>CSS</h2></div></div>
+                <div class="col-sm-3"><div class="skills-container"><h2>JAVASCRIPT</h2></div></div>
+                <div class="col-sm-3"><div class="skills-container"><h2>BOOTSTRAP</h2></div></div>
+                <div class="col-sm-3"><div class="skills-container"><h2>JQUERY</h2></div></div>
+                <div class="col-sm-3"><div class="skills-container"><h2>PHP</h2></div></div>
+                <div class="col-sm-3"><div class="skills-container"><h2>LARAVEL</h2></div></div>
+                <div class="col-sm-3"><div class="skills-container"><h2>MY SQL</h2></div></div>
+                <div class="col-sm-3"><div class="skills-container"><h2>VUE JS</h2></div></div>
+                <div class="col-sm-3"><div class="skills-container"><h2>PYTHON</h2></div></div>
+                <div class="col-sm-3"><div class="skills-container"><h2>GIT</h2></div></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about">
+        <div class="title">
+            <h1>ABOUT</h1>
+        </div>
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-sm-4 profile text-center">
+                    <img src="img/azizul hasan raihan AHR144.jpg" alt="Azizul Hasan Raihan Profile" class="img-fluid rounded-circle">
+                    <h2>Azizul Hasan Raihan</h2>
+                </div>
+                <div class="col-sm-8" style="padding: 20px; background: rgba(7, 7, 7, 0.8); border-radius: 10px;">
+                    <p>Welcome to my online portfolio! I’m Azizul Hasan Raihan, a passionate software engineer and web developer based in Dhaka, Bangladesh. Here, you’ll find a collection of projects showcasing my expertise in creating innovative digital solutions and captivating web experiences.</p>
+                    <p>From dynamic web applications to efficient software, I’m dedicated to pushing the boundaries of technology. As the CEO of <a href="https://relicsoftwares.com" style="color: var(--primary-color);">Relic Software</a>, I strive to deliver cutting-edge solutions for diverse industries.</p>
+                    <p>Explore my work, get inspired, or let’s collaborate on your next big project!</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact">
+        <div class="title">
+            <h1>CONTACT</h1>
+        </div>
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-6 aboutMeContaner">
+                    <p>Email: <a href="mailto:web.ahraihan@gmail.com">web.ahraihan@gmail.com</a></p>
+                    <p>Facebook: <a href="https://www.facebook.com/web.ahraihan">web.ahraihan</a></p>
+                    <p>LinkedIn: <a href="https://www.linkedin.com/in/a-h-raihan-130689217/">A.H.Raihan</a></p>
+                    <p>GitHub: <a href="https://github.com/ah-raihan">ah-raihan</a></p>
+                    <p>Region: Dhaka, Bangladesh</p>
+                </div>
+                <div class="col-sm-6">
+                    <form class="contact-form">
+                        <input type="text" placeholder="Name" required>
+                        <input type="email" placeholder="Email" required>
+                        <input type="text" placeholder="Subject" required>
+                        <textarea cols="30" rows="6" placeholder="Message" required></textarea>
+                        <input type="submit" value="Submit">
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>All Rights Reserved by Azizul Hasan Raihan &copy; 2025</footer>
+
+
+    <!-- JavaScript -->
+    <script>
+        const changeablename = document.getElementById('changeablename');
+        const names = ['Azizul Hasan Raihan', 'A Web Application Developer'];
+        let count = 0;
+        setInterval(() => {
+            count = (count + 1) % names.length;
+            changeablename.innerHTML = names[count];
+        }, 3000);
+
+        const navUl = document.getElementById('navUl');
+        const navIcon = document.getElementById('navIcon');
+        function navUlshow() {
+            navUl.style.display = navUl.style.display === 'block' ? 'none' : 'block';
+            navIcon.classList.toggle('active');
+        }
+        function navUlhide() { navUl.style.display = 'none'; navIcon.classList.remove('active'); }
+
+        const body = document.querySelector('body');
+        function effect() {
+            for (let i = 0; i < 40; i++) {
+                const elm = document.createElement('span');
+                elm.className = 'rain';
+                elm.style.left = Math.random() * window.innerWidth + 'px';
+                elm.style.animationDuration = Math.random() * 1 + 0.5 + 's';
+                body.append(elm);
+                setTimeout(() => elm.remove(), 1000);
+            }
+        }
+        setInterval(effect, 2000);
+
+    </script>
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

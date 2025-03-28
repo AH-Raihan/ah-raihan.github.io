@@ -1,0 +1,33 @@
+{
+"name": "Azizul Hasan Raihan",
+"short_name": "A.H.Raihan",
+"description": "Portfolio website Azizul Hasan Raihan",
+"lang": "en-US",
+"start_url": "/",
+"display": "standalone",
+"orientation": "portrait",
+"theme_color": "#06234a",
+"background_color": "#FFFFFF",
+"icons": [
+{
+"src": "images/AHR-logo.png",
+"sizes": "72x72",
+"type": "image/png"
+},
+{
+"src": "images/AHR-logo.png",
+"sizes": "96x96",
+"type": "image/png"
+},
+{
+"src": "images/AHR-logo.png",
+"sizes": "120x120",
+"type": "image/png"
+},
+{
+"src": "images/AHR-logo.png",
+"sizes": "512x512",
+"type": "image/png"
+}
+]
+}
