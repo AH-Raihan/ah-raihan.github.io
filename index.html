@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -27,17 +28,26 @@
 
         /* VARIABLES */
         :root {
-            --bg-color: #fdfdfd;
-            --text-color: #333;
+            --bg-color: #050505;
+            --text-color: #f0f0f0;
             --main-color: #008080;
-            --white-color: #fdfdfd;
-            --shadow-color: rgba(0, 0, 0, 0.2);
+            --secondary-color: #00b3b3;
+            --white-color: #ffffff;
+            --shadow-color: rgba(0, 128, 128, 0.2);
+            --glass-bg: rgba(255, 255, 255, 0.05);
+            --glass-border: rgba(255, 255, 255, 0.1);
         }
 
-        .dark-mode {
-            --bg-color: #0b061f;
-            --text-color: #fdfdfd;
-            --shadow-color: rgba(0, 0, 0, 0.7);
+
+
+        #bg-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            pointer-events: none;
         }
 
         html {
@@ -57,7 +67,9 @@
             left: 0;
             width: 100%;
             padding: 2rem 7%;
-            background: var(--bg-color);
+            background: transparent;
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--glass-border);
             display: flex;
             align-items: center;
             z-index: 100;
@@ -94,12 +106,6 @@
             background: var(--main-color);
         }
 
-        #darkMode-icon {
-            font-size: 2.4rem;
-            color: var(--text-color);
-            cursor: pointer;
-        }
-        
         #menu-icon {
             font-size: 3.6rem;
             color: var(--text-color);
@@ -127,7 +133,7 @@
             font-size: 3.2rem;
             font-weight: 700;
         }
-        
+
         .home-content h3:nth-of-type(2) {
             margin-bottom: 2rem;
         }
@@ -137,7 +143,7 @@
             font-weight: 700;
             line-height: 1.3;
         }
-        
+
         .home-content h3 .multiple-text {
             color: var(--main-color);
         }
@@ -186,98 +192,32 @@
             color: var(--main-color);
             border-color: var(--main-color);
         }
-        
-        .home .profession-container {
+
+        .home .hero-3d-container {
             position: absolute;
             top: 50%;
-            right: 0;
+            right: 5%;
             transform: translateY(-50%);
-            width: 768px;
-            height: 768px;
-            overflow: hidden;
-            pointer-events: none;
+            width: 500px;
+            height: 500px;
+            pointer-events: auto;
         }
 
-        .home .profession-container .profession-box {
-            position: absolute;
-            top: 0;
-            right: 0;
-            width: 768px;
-            height: 768px;
-            border-radius: 50%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            animation: professionRotate 13s ease-out infinite;
+        #hero-canvas {
+            width: 100%;
+            height: 100%;
         }
 
-        @keyframes professionRotate {
-            0%, 20% {
-                transform: rotate(0deg);
+        @media screen and (max-width: 991px) {
+            .home .hero-3d-container {
+                position: relative;
+                top: 0;
+                right: 0;
+                transform: none;
+                width: 100%;
+                height: 300px;
+                margin-top: 2rem;
             }
-            25%, 45% {
-                transform: rotate(-90deg);
-            }
-            50%, 70% {
-                transform: rotate(-180deg);
-            }
-            75%, 95% {
-                transform: rotate(-270deg);
-            }
-            100% {
-                transform: rotate(-360deg);
-            }
-        }
-
-        .home .profession-box .profession {
-            position: absolute;
-            left: 0;
-            display: flex;
-            align-items: center;
-            flex-direction: column;
-            color: var(--main-color);
-            transform: rotate(calc(360deg / 4 * var(--i)));
-            transform-origin: 384px;
-            background: var(--bg-color);
-            padding: 13px 0;
-        }
-
-        .home .profession-box .profession:nth-child(1) i {
-            margin-right: 15px;
-        }
-        .home .profession-box .profession:nth-child(2),
-        .home .profession-box .profession:nth-child(4) {
-            padding-bottom: 20px;
-        }
-
-
-        .home .profession i {
-            font-size: 3.8rem;
-        }
-
-        .home .profession h3 {
-            font-size: 3.2rem;
-            line-height: 1;
-            font-weight: 600;
-        }
-
-        .home .profession-box .circle {
-            width: 560px;
-            height: 560px;
-            border: 3px solid var(--main-color);
-            border-radius: 50%;
-        }
-
-        .home .profession-container .overlay {
-            position: absolute;
-            top: 0;
-            right: 0;
-            width: 0;
-            height: 0;
-            border-top: 384px solid var(--main-color);
-            border-right: 384px solid var(--main-color);
-            border-bottom: 384px solid var(--main-color);
-            border-left: 384px solid transparent;
         }
 
         .home-img {
@@ -297,11 +237,134 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            gap: 4rem;
+            gap: 10rem;
+            position: relative;
+            overflow: hidden;
         }
 
-        .about-img img {
-            width: 35vw;
+        .about::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: -10%;
+            width: 40rem;
+            height: 40rem;
+            background: var(--main-color);
+            border-radius: 50%;
+            filter: blur(15rem);
+            opacity: 0.1;
+            z-index: -1;
+            animation: float-glow 8s ease-in-out infinite;
+        }
+
+        @keyframes float-glow {
+
+            0%,
+            100% {
+                transform: translateY(0) scale(1);
+            }
+
+            50% {
+                transform: translateY(-50px) scale(1.1);
+            }
+        }
+
+        .about-img {
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .about-img-container {
+            position: relative;
+            width: 35rem;
+            height: 35rem;
+            border-radius: 50%;
+            padding: 1.5rem;
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border: 2px solid var(--glass-border);
+            box-shadow: 0 0 3rem var(--shadow-color);
+            transition: .5s ease;
+        }
+
+        .about-img-container:hover {
+            transform: scale(1.02);
+            border-color: var(--main-color);
+            box-shadow: 0 0 5rem var(--shadow-color);
+        }
+
+        .about-img-container img {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            object-fit: cover;
+            border: .2rem solid var(--main-color);
+        }
+
+        .about-img-glow {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 110%;
+            height: 110%;
+            background: radial-gradient(circle, var(--main-color) 0%, transparent 70%);
+            opacity: 0.15;
+            z-index: -1;
+            filter: blur(30px);
+            pointer-events: none;
+        }
+
+        .about-badge {
+            position: absolute;
+            background: var(--glass-bg);
+            backdrop-filter: blur(15px);
+            border: 1px solid var(--glass-border);
+            padding: 1rem 2rem;
+            border-radius: 5rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.3);
+            z-index: 10;
+            animation: float-badge 4s ease-in-out infinite;
+        }
+
+        .about-badge i {
+            font-size: 2.4rem;
+            color: var(--main-color);
+        }
+
+        .about-badge span {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: var(--text-color);
+        }
+
+        .badge-1 {
+            top: 10%;
+            right: -5rem;
+            animation-delay: 0s;
+        }
+
+        .badge-2 {
+            bottom: 10%;
+            left: -5rem;
+            animation-delay: 2s;
+        }
+
+        @keyframes float-badge {
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-2rem);
+            }
         }
 
         .heading {
@@ -328,6 +391,7 @@
             min-height: auto;
             padding-bottom: 7rem;
         }
+
         .services h2 {
             margin-bottom: 5rem;
         }
@@ -342,14 +406,31 @@
 
         .services-container .services-box {
             flex: 1 1 30rem;
-            background: var(--bg-color);
+            background: var(--glass-bg);
+            backdrop-filter: blur(15px);
             padding: 3rem 2rem 4rem;
             border-radius: 2rem;
-            box-shadow: 0 .1rem .5rem var(--shadow-color);
+            box-shadow: 0 .5rem 1.5rem var(--shadow-color);
             text-align: center;
-            border-top: .6rem solid var(--main-color);
-            border-bottom: .6rem solid var(--main-color);
+            border: 1px solid var(--glass-border);
             transition: .5s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .services-container .services-box::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.05), transparent);
+            transition: 0.5s;
+        }
+
+        .services-container .services-box:hover::before {
+            left: 100%;
         }
 
         .services-container .services-box:hover {
@@ -380,6 +461,7 @@
         .portfolio {
             padding-bottom: 10rem;
         }
+
         .portfolio h2 {
             margin-bottom: 4rem;
         }
@@ -414,7 +496,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: linear-gradient(rgba(0,0,0, .1), var(--main-color));
+            background: linear-gradient(rgba(0, 0, 0, .1), var(--main-color));
             display: flex;
             justify-content: center;
             align-items: center;
@@ -458,14 +540,211 @@
         .portfolio-box.project-hidden {
             display: none;
         }
-        
+
         .portfolio-box.project-hidden.show {
             display: flex;
         }
-        
+
         .portfolio-btn-container {
             text-align: center;
             margin-top: 4rem;
+        }
+
+        /* EXPERIENCE SECTION */
+        .experience {
+            min-height: auto;
+            padding-bottom: 7rem;
+        }
+
+        .experience .experience-container {
+            position: relative;
+            max-width: 120rem;
+            margin: 0 auto;
+            padding: 2rem 0;
+            perspective: 1500px;
+        }
+
+        .experience-container::after {
+            content: '';
+            position: absolute;
+            width: .3rem;
+            background: var(--main-color);
+            top: 0;
+            bottom: 0;
+            left: 50%;
+            margin-left: -0.15rem;
+            box-shadow: 0 0 .5rem var(--main-color);
+        }
+
+        .experience-box {
+            padding: 2.5rem 4rem;
+            position: relative;
+            background: var(--glass-bg);
+            backdrop-filter: blur(15px);
+            border: 1px solid var(--glass-border);
+            border-radius: 2rem;
+            width: 48%;
+            margin-bottom: 4rem;
+            transition: .5s ease;
+            cursor: default;
+            transform-style: preserve-3d;
+        }
+
+        .experience-box.left {
+            left: 0;
+            transform-origin: right 3rem;
+        }
+
+        .experience-box.right {
+            left: 52%;
+            transform-origin: left 3rem;
+        }
+
+        .experience-box:hover {
+            box-shadow: 0 0 1.5rem var(--shadow-color);
+        }
+
+        /* Connector Line */
+        .experience-box::before {
+            content: '';
+            position: absolute;
+            top: 2.9rem;
+            width: 2.4rem;
+            height: .2rem;
+            background: var(--main-color);
+            z-index: -1;
+            box-shadow: 0 0 .5rem var(--main-color);
+        }
+
+        .experience-box.left::before {
+            right: -2.4rem;
+        }
+
+        .experience-box.right::before {
+            left: -2.4rem;
+        }
+
+        .experience-box::after {
+            content: '';
+            position: absolute;
+            width: 2rem;
+            height: 2rem;
+            right: -3.4rem;
+            background: var(--bg-color);
+            border: .4rem solid var(--main-color);
+            top: 2rem;
+            border-radius: 50%;
+            z-index: 1;
+            box-shadow: 0 0 .5rem var(--main-color);
+        }
+
+        .experience-box.right::after {
+            left: -3.4rem;
+        }
+
+        .experience-box h3 {
+            font-size: 2.4rem;
+            color: var(--main-color);
+        }
+
+        .experience-box h4 {
+            font-size: 2rem;
+            margin: .5rem 0;
+        }
+
+        .experience-box p {
+            font-size: 1.6rem;
+        }
+
+        /* PROCESS SECTION */
+        .process {
+            padding-bottom: 10rem;
+        }
+
+        .process-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
+            gap: 2.5rem;
+            margin-top: 5rem;
+        }
+
+        .process-box {
+            background: var(--glass-bg);
+            backdrop-filter: blur(15px);
+            padding: 4rem 2rem;
+            border-radius: 2rem;
+            border: 1px solid var(--glass-border);
+            text-align: center;
+            transition: .5s ease;
+            position: relative;
+        }
+
+        .process-box:hover {
+            transform: scale(1.05);
+            border-color: var(--main-color);
+        }
+
+        .process-box .step-number {
+            position: absolute;
+            top: -2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 5rem;
+            height: 5rem;
+            background: var(--main-color);
+            color: var(--white-color);
+            font-size: 2.4rem;
+            font-weight: 700;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 0 1rem var(--main-color);
+        }
+
+        .process-box i {
+            font-size: 6rem;
+            color: var(--main-color);
+            margin-bottom: 2rem;
+        }
+
+        .process-box h3 {
+            font-size: 2.4rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .process-box p {
+            font-size: 1.6rem;
+        }
+
+        @media (max-width: 768px) {
+            .experience-container::after {
+                left: 3.1rem;
+            }
+
+            .experience-box {
+                width: calc(100% - 6rem);
+                margin-left: 6rem;
+                padding-left: 4rem;
+                padding-right: 2.5rem;
+                transform-origin: left 3rem !important;
+            }
+
+            .experience-box.right {
+                left: 0;
+            }
+
+            /* Mobile Connector */
+            .experience-box::before {
+                left: -2.9rem !important;
+                right: auto !important;
+                width: 2.9rem !important;
+            }
+
+            .experience-box::after {
+                left: -3.9rem !important;
+                right: auto !important;
+            }
         }
 
         /* CONTACT SECTION */
@@ -586,6 +865,7 @@
         }
 
         @media (max-width: 991px) {
+
             .navbar a:nth-child(1),
             .navbar a:nth-child(2) {
                 color: var(--main-color);
@@ -600,11 +880,13 @@
                 max-width: 50rem;
             }
 
-            .home .profession-container, .home-img {
+            .home .profession-container,
+            .home-img {
                 display: none;
             }
-            
-            .services, .portfolio {
+
+            .services,
+            .portfolio {
                 padding-bottom: 7rem;
             }
 
@@ -622,14 +904,6 @@
                 display: block;
             }
 
-            #darkMode-icon {
-                position: absolute;
-                right: 7rem;
-                font-size: 2.6rem;
-                color: var(--text-color);
-                margin-bottom: .1rem;
-            }
-
             .navbar {
                 position: absolute;
                 top: 100%;
@@ -637,8 +911,8 @@
                 width: 100%;
                 padding: 1rem 3%;
                 background: var(--bg-color);
-                border-top: .1rem solid rgba(0,0,0, .2);
-                box-shadow: 0 .5rem 1rem rgba(0,0,0, .1);
+                border-top: .1rem solid rgba(0, 0, 0, .2);
+                box-shadow: 0 .5rem 1rem rgba(0, 0, 0, .1);
                 display: none;
             }
 
@@ -652,7 +926,7 @@
                 margin: 3rem 0;
                 color: var(--text-color);
             }
-            
+
             .navbar a:nth-child(1),
             .navbar a:nth-child(2) {
                 color: var(--text-color);
@@ -665,94 +939,87 @@
             .navbar a::before {
                 display: none;
             }
-            
+
             .home {
-                padding: 0 3% 23rem;
-                justify-content: center;
+                padding: 10rem 3% 5rem;
+                flex-direction: column;
+                justify-content: flex-start;
                 text-align: center;
+                height: auto;
+                min-height: 100vh;
             }
 
-            .home-content h3 {
-                font-size: 2.6rem;
+            .home-content {
+                max-width: 100%;
+                z-index: 10;
+            }
+
+            .home .hero-3d-container {
+                position: relative;
+                top: 0;
+                right: 0;
+                transform: none;
+                width: 100%;
+                height: 350px;
+                margin-top: 2rem;
+                order: -1;
+                /* Move 3D object above text on mobile for better visual flow */
             }
 
             .home-content h1 {
-                font-size: 5rem;
+                font-size: 4.5rem;
             }
 
-            .home-content .social-media a {
-                margin: 2.5rem .75rem 3rem;
-            }
-
-            .home .profession-container {
-                left: 0;
-                width: 100%;
-                height: 100%;
-            }
-
-            .home .profession-container .profession-box {
-                position: fixed;
-                top: 60%;
-                left: 0;
-                border-radius: 0;
-                width: 100%;
-            }
-
-            .home .profession-box .profession {
-                padding: 0 13px;
-                left: auto;
-                transform-origin: 0;
-            }
-
-            .home .profession-box .profession:nth-child(1) {
-                transform: rotate(-90deg) translate(-120px, -210px);
-            }
-            .home .profession-box .profession:nth-child(1) i {
-                margin-right: 0;
-            }
-            .home .profession-box .profession:nth-child(2) {
-                transform: rotate(0deg) translate(0, -335px);
-            }
-            .home .profession-box .profession:nth-child(3) {
-                transform: rotate(90deg) translate(-115px, -450px);
-            }
-            .home .profession-box .profession:nth-child(4) {
-                transform: rotate(180deg) translate(-220px, -335px);
-            }
-
-            .home .profession-box .circle {
-                display: none;
-            }
-
-            .home .profession-container .overlay {
-                position: fixed;
-                top: 70rem;
-                left: 50%;
-                right: 0;
-                transform: rotate(90deg) translate(-50%, 50%) scaleY(3);
-                border-width: 23.9rem;
-            }
-            
             .about {
-                flex-direction: column-reverse;
+                flex-direction: column;
                 text-align: center;
+                gap: 5rem;
+                padding-top: 5rem;
             }
 
-            .about-content h2 {
-                text-align: center;
+            .about-img-container {
+                width: 30rem;
+                height: 30rem;
+            }
+
+            .badge-1,
+            .badge-2 {
+                right: auto;
+                left: 50%;
+                transform: translateX(-50%);
+                animation: none;
+            }
+
+            .badge-1 {
+                top: -2rem;
+            }
+
+            .badge-2 {
+                bottom: -2rem;
             }
 
             .about-img img {
-                width: 70vw;
-                margin-top: 4rem;
+                width: 100%;
             }
 
-            .services h2, .portfolio h2 {
-                margin-bottom: 3rem;
+            .portfolio-container {
+                grid-template-columns: repeat(2, 1fr) !important;
+            }
+        }
+
+        @media screen and (max-width: 617px) {
+            .portfolio-container {
+                grid-template-columns: 1fr !important;
+            }
+        }
+
+        @media screen and (max-width: 450px) {
+            .home-content h1 {
+                font-size: 3.5rem;
             }
 
-            .portfolio .portfolio-container {
-                grid-template-columns: repeat(2, 1fr);
+            .home .hero-3d-container {
+                height: 250px;
             }
         }
 
@@ -774,7 +1041,7 @@
             .home {
                 padding: 0 3% 30rem;
             }
-            
+
             .contact form .input-box input {
                 width: 100%;
             }
@@ -784,6 +1051,7 @@
             .about-img img {
                 width: 90vw;
             }
+
             .footer {
                 flex-direction: column-reverse;
             }
@@ -793,10 +1061,16 @@
                 margin-top: 2rem;
             }
         }
-
     </style>
+    <!-- THREE.JS & GSAP -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+
 </head>
+
 <body>
+    <canvas id="bg-canvas"></canvas>
 
     <!-- HEADER DESIGN -->
     <header class="header">
@@ -805,12 +1079,13 @@
         <nav class="navbar">
             <a href="#home" class="active">Home</a>
             <a href="#about">About</a>
+            <a href="#experience">Experience</a>
             <a href="#services">Skills</a>
             <a href="#portfolio">Projects</a>
+            <a href="#process">Process</a>
             <a href="#contact">Contact</a>
         </nav>
 
-        <div class="bx bx-moon" id="darkMode-icon"></div>
         <div class="bx bx-menu" id="menu-icon"></div>
     </header>
 
@@ -831,46 +1106,65 @@
 
             <a href="#" class="btn">Download CV</a>
         </div>
-        
-        <div class="profession-container">
-            <div class="profession-box">
-                <div class="profession" style="--i:0;">
-                    <i class='bx bx-code-alt'></i>
-                    <h3>Web Developer</h3>
-                </div>
-                <div class="profession" style="--i:1;">
-                    <i class='bx bx-cog'></i>
-                    <h3>Software Engineer</h3>
-                </div>
-                <div class="profession" style="--i:2;">
-                    <i class='bx bx-server'></i>
-                    <h3>Full Stack</h3>
-                </div>
-                <div class="profession" style="--i:3;">
-                    <i class='bx bx-data'></i>
-                    <h3>Programmer</h3>
-                </div>
 
-                <div class="circle"></div>
-            </div>
-            <div class="overlay"></div>
+        <div class="hero-3d-container">
+            <canvas id="hero-canvas"></canvas>
         </div>
 
         <div class="home-img">
-            <!-- Image is intentionally left blank to keep the layout without a personal photo -->
         </div>
     </section>
 
     <!-- ABOUT SECTION DESIGN -->
     <section class="about" id="about">
         <div class="about-img">
-            <img src="Azizul Hasan Raihan circle.png" alt="A photo of Azizul Hasan Raihan" onerror="this.onerror=null;this.src='https://placehold.co/600x600/754ef9/ffffff?text=About+Me';">
+            <div class="about-img-container">
+                <img src="Ah-raihan.jpg" alt="A photo of Azizul Hasan Raihan"
+                    onerror="this.onerror=null;this.src='https://placehold.co/600x600/754ef9/ffffff?text=About+Me';">
+                <div class="about-img-glow"></div>
+            </div>
+            <div class="about-badge badge-1">
+                <i class='bx bx-award'></i>
+                <span>5+ Years Exp.</span>
+            </div>
+            <div class="about-badge badge-2">
+                <i class='bx bx-check-shield'></i>
+                <span>Certified Pro</span>
+            </div>
         </div>
         <div class="about-content">
             <h2 class="heading">About <span>Me</span></h2>
             <h3>Hi, I'm Here To Help Your Next Project!</h3>
-            <p>Welcome to my online portfolio! I’m Azizul Hasan Raihan, a passionate software engineer and web developer based in Dhaka, Bangladesh. Here, you’ll find a collection of projects showcasing my expertise in creating innovative digital solutions and captivating web experiences. As the CEO of <a href="https://relicsoftware.com" style="color: var(--main-color);">Relic Software</a>, I strive to deliver cutting-edge solutions for diverse industries.</p>
+            <p>Welcome to my online portfolio! I’m Azizul Hasan Raihan, a passionate software engineer and web developer
+                based in Dhaka, Bangladesh. Here, you’ll find a collection of projects showcasing my expertise in
+                creating innovative digital solutions and captivating web experiences. As the CEO of <a
+                    href="https://relicsoftware.com" style="color: var(--main-color);">Relic Software</a>, I strive to
+                deliver cutting-edge solutions for diverse industries.</p>
             <a href="#" class="btn">Read More</a>
+        </div>
+    </section>
+
+    <!-- EXPERIENCE SECTION DESIGN -->
+    <section class="experience" id="experience">
+        <h2 class="heading">My <span>Experience</span></h2>
+
+        <div class="experience-container">
+            <div class="experience-box left">
+                <h3>2023 - Present</h3>
+                <h4>CEO & Founder</h4>
+                <p>Leading Relic Software to deliver high-quality web and software solutions for global clients.</p>
+            </div>
+            <div class="experience-box right">
+                <h3>2021 - 2023</h3>
+                <h4>Full-Stack Developer</h4>
+                <p>Developed core architectures for multiple e-commerce and banking applications using Laravel and
+                    Vue.js.</p>
+            </div>
+            <div class="experience-box left">
+                <h3>2019 - 2021</h3>
+                <h4>Junior Web Developer</h4>
+                <p>Started my journey by building responsive landing pages and managing CMS-based websites.</p>
+            </div>
         </div>
     </section>
 
@@ -888,31 +1182,36 @@
             <div class="services-box">
                 <i class='bx bxl-javascript'></i>
                 <h3>JavaScript/jQuery/Vue</h3>
-                <p>Building dynamic and interactive web applications using vanilla JS, jQuery, and modern frameworks like Vue.js.</p>
+                <p>Building dynamic and interactive web applications using vanilla JS, jQuery, and modern frameworks
+                    like Vue.js.</p>
                 <a href="#" class="btn">Read More</a>
             </div>
             <div class="services-box">
                 <i class='bx bxl-php'></i>
                 <h3>PHP/Laravel/MySQL</h3>
-                <p>Developing robust back-end systems, APIs, and full-stack applications with PHP, Laravel, and MySQL databases.</p>
+                <p>Developing robust back-end systems, APIs, and full-stack applications with PHP, Laravel, and MySQL
+                    databases.</p>
                 <a href="#" class="btn">Read More</a>
             </div>
             <div class="services-box">
                 <i class='bx bxl-python'></i>
                 <h3>Python</h3>
-                <p>Utilizing Python for back-end development, scripting, and automation to create efficient solutions.</p>
+                <p>Utilizing Python for back-end development, scripting, and automation to create efficient solutions.
+                </p>
                 <a href="#" class="btn">Read More</a>
             </div>
             <div class="services-box">
                 <i class='bx bxl-c-plus-plus'></i>
                 <h3>C & Arduino</h3>
-                <p>Building a strong foundation in programming logic with C and creating interactive electronic projects with Arduino.</p>
+                <p>Building a strong foundation in programming logic with C and creating interactive electronic projects
+                    with Arduino.</p>
                 <a href="#" class="btn">Read More</a>
             </div>
             <div class="services-box">
                 <i class='bx bxl-git'></i>
                 <h3>Git & GitHub</h3>
-                <p>Using version control with Git and collaborating on projects through GitHub to maintain a clean workflow.</p>
+                <p>Using version control with Git and collaborating on projects through GitHub to maintain a clean
+                    workflow.</p>
                 <a href="#" class="btn">Read More</a>
             </div>
         </div>
@@ -924,7 +1223,8 @@
 
         <div class="portfolio-container">
             <div class="portfolio-box">
-                <img src="https://ceo.relicsoftware.com/projects/madrasatuir.com.jpeg" alt="Education Management System" onerror="this.onerror=null;this.src='https://placehold.co/400x300/cccccc/333333?text=EMS';">
+                <img src="https://ceo.relicsoftware.com/projects/madrasatuir.com.jpeg" alt="Education Management System"
+                    onerror="this.onerror=null;this.src='https://placehold.co/400x300/cccccc/333333?text=EMS';">
                 <div class="portfolio-layer">
                     <h4>EMS</h4>
                     <p>A comprehensive Education Management System.</p>
@@ -932,7 +1232,8 @@
                 </div>
             </div>
             <div class="portfolio-box">
-                <img src="https://ceo.relicsoftware.com/projects/azhanshop.com.jpeg" alt="E-Commerce Site" onerror="this.onerror=null;this.src='https://placehold.co/400x300/cccccc/333333?text=E-Commerce';">
+                <img src="https://ceo.relicsoftware.com/projects/azhanshop.com.jpeg" alt="E-Commerce Site"
+                    onerror="this.onerror=null;this.src='https://placehold.co/400x300/cccccc/333333?text=E-Commerce';">
                 <div class="portfolio-layer">
                     <h4>E-Commerce Site</h4>
                     <p>A fully functional online store with a clean user interface.</p>
@@ -940,7 +1241,8 @@
                 </div>
             </div>
             <div class="portfolio-box">
-                <img src="https://ceo.relicsoftware.com/projects/fidesbd.com.jpeg" alt="Real Estate" onerror="this.onerror=null;this.src='https://placehold.co/400x300/cccccc/333333?text=Real+Estate';">
+                <img src="https://ceo.relicsoftware.com/projects/fidesbd.com.jpeg" alt="Real Estate"
+                    onerror="this.onerror=null;this.src='https://placehold.co/400x300/cccccc/333333?text=Real+Estate';">
                 <div class="portfolio-layer">
                     <h4>Real Estate</h4>
                     <p>A modern website for a real estate company.</p>
@@ -948,7 +1250,8 @@
                 </div>
             </div>
             <div class="portfolio-box">
-                <img src="https://ceo.relicsoftware.com/projects/markajbd.com.jpeg" alt="EdTech Platform" onerror="this.onerror=null;this.src='https://placehold.co/400x300/cccccc/333333?text=EdTech';">
+                <img src="https://ceo.relicsoftware.com/projects/markajbd.com.jpeg" alt="EdTech Platform"
+                    onerror="this.onerror=null;this.src='https://placehold.co/400x300/cccccc/333333?text=EdTech';">
                 <div class="portfolio-layer">
                     <h4>EdTech Platform</h4>
                     <p>An online learning and teaching platform.</p>
@@ -956,7 +1259,8 @@
                 </div>
             </div>
             <div class="portfolio-box">
-                <img src="https://ceo.relicsoftware.com/projects/serviceanytimebd.com.jpeg" alt="Servicing & Electronic" onerror="this.onerror=null;this.src='https://placehold.co/400x300/cccccc/333333?text=Servicing';">
+                <img src="https://ceo.relicsoftware.com/projects/serviceanytimebd.com.jpeg" alt="Servicing & Electronic"
+                    onerror="this.onerror=null;this.src='https://placehold.co/400x300/cccccc/333333?text=Servicing';">
                 <div class="portfolio-layer">
                     <h4>Servicing & Electronic</h4>
                     <p>A platform for service and electronic item sales.</p>
@@ -964,7 +1268,8 @@
                 </div>
             </div>
             <div class="portfolio-box">
-                <img src="https://ceo.relicsoftware.com/projects/takabank.madrasatuir.com.jpeg" alt="Taka Bank" onerror="this.onerror=null;this.src='https://placehold.co/400x300/cccccc/333333?text=Taka+Bank';">
+                <img src="https://ceo.relicsoftware.com/projects/takabank.madrasatuir.com.jpeg" alt="Taka Bank"
+                    onerror="this.onerror=null;this.src='https://placehold.co/400x300/cccccc/333333?text=Taka+Bank';">
                 <div class="portfolio-layer">
                     <h4>Taka Bank</h4>
                     <p>A digital money transfer and banking application.</p>
@@ -972,7 +1277,8 @@
                 </div>
             </div>
             <div class="portfolio-box project-hidden">
-                <img src="https://ceo.relicsoftware.com/projects/chat1-oj7c.onrender.com.jpeg" alt="Chat Application" onerror="this.onerror=null;this.src='https://placehold.co/400x300/cccccc/333333?text=Chat+App';">
+                <img src="https://ceo.relicsoftware.com/projects/chat1-oj7c.onrender.com.jpeg" alt="Chat Application"
+                    onerror="this.onerror=null;this.src='https://placehold.co/400x300/cccccc/333333?text=Chat+App';">
                 <div class="portfolio-layer">
                     <h4>Chat Application</h4>
                     <p>A real-time chat application.</p>
@@ -980,7 +1286,8 @@
                 </div>
             </div>
             <div class="portfolio-box project-hidden">
-                <img src="https://ceo.relicsoftware.com/projects/news1.png" alt="News Portal" onerror="this.onerror=null;this.src='https://placehold.co/400x300/cccccc/333333?text=News+Portal';">
+                <img src="https://ceo.relicsoftware.com/projects/news1.png" alt="News Portal"
+                    onerror="this.onerror=null;this.src='https://placehold.co/400x300/cccccc/333333?text=News+Portal';">
                 <div class="portfolio-layer">
                     <h4>News Portal</h4>
                     <p>A modern news portal with multiple categories.</p>
@@ -988,7 +1295,8 @@
                 </div>
             </div>
             <div class="portfolio-box project-hidden">
-                <img src="https://ceo.relicsoftware.com/projects/key-clash-arena.jpeg" alt="KeyClash Arena Game" onerror="this.onerror=null;this.src='https://placehold.co/400x300/cccccc/333333?text=KeyClash';">
+                <img src="https://ceo.relicsoftware.com/projects/key-clash-arena.jpeg" alt="KeyClash Arena Game"
+                    onerror="this.onerror=null;this.src='https://placehold.co/400x300/cccccc/333333?text=KeyClash';">
                 <div class="portfolio-layer">
                     <h4>Key Clash Arena</h4>
                     <p>A multiplayer typing game.</p>
@@ -996,7 +1304,8 @@
                 </div>
             </div>
             <div class="portfolio-box project-hidden">
-                <img src="https://ceo.relicsoftware.com/projects/game1.png" alt="TicTac Game" onerror="this.onerror=null;this.src='https://placehold.co/400x300/cccccc/333333?text=Tic-Tac-Toe';">
+                <img src="https://ceo.relicsoftware.com/projects/game1.png" alt="TicTac Game"
+                    onerror="this.onerror=null;this.src='https://placehold.co/400x300/cccccc/333333?text=Tic-Tac-Toe';">
                 <div class="portfolio-layer">
                     <h4>Tic-Tac-Toe Game</h4>
                     <p>A classic Tic-Tac-Toe game.</p>
@@ -1004,7 +1313,8 @@
                 </div>
             </div>
             <div class="portfolio-box project-hidden">
-                <img src="https://ceo.relicsoftware.com/projects/snack_game.jpeg" alt="Snake Game" onerror="this.onerror=null;this.src='https://placehold.co/400x300/cccccc/333333?text=Snake+Game';">
+                <img src="https://ceo.relicsoftware.com/projects/snack_game.jpeg" alt="Snake Game"
+                    onerror="this.onerror=null;this.src='https://placehold.co/400x300/cccccc/333333?text=Snake+Game';">
                 <div class="portfolio-layer">
                     <h4>Snake Game</h4>
                     <p>The classic snake game built with JavaScript.</p>
@@ -1012,7 +1322,8 @@
                 </div>
             </div>
             <div class="portfolio-box project-hidden">
-                <img src="https://ceo.relicsoftware.com/projects/Hostel%20Manage.jpg" alt="Hostel Management" onerror="this.onerror=null;this.src='https://placehold.co/400x300/cccccc/333333?text=Hostel+Manage';">
+                <img src="https://ceo.relicsoftware.com/projects/Hostel%20Manage.jpg" alt="Hostel Management"
+                    onerror="this.onerror=null;this.src='https://placehold.co/400x300/cccccc/333333?text=Hostel+Manage';">
                 <div class="portfolio-layer">
                     <h4>Hostel Management</h4>
                     <p>A system to manage hostel activities.</p>
@@ -1021,7 +1332,41 @@
             </div>
         </div>
         <div class="portfolio-btn-container">
-             <a href="#" class="btn" id="show-more-btn">Show More</a>
+            <a href="#" class="btn" id="show-more-btn">Show More</a>
+        </div>
+    </section>
+
+    </section>
+
+    <!-- PROCESS SECTION DESIGN -->
+    <section class="process" id="process">
+        <h2 class="heading">My <span>Process</span></h2>
+
+        <div class="process-container">
+            <div class="process-box">
+                <div class="step-number">1</div>
+                <i class='bx bx-search-alt'></i>
+                <h3>Plan</h3>
+                <p>Analyzing requirements and researching the best tech stack for the project.</p>
+            </div>
+            <div class="process-box">
+                <div class="step-number">2</div>
+                <i class='bx bx-palette'></i>
+                <h3>Design</h3>
+                <p>Creating beautiful, high-fidelity UI/UX designs and 3D mockups.</p>
+            </div>
+            <div class="process-box">
+                <div class="step-number">3</div>
+                <i class='bx bx-code-alt'></i>
+                <h3>Build</h3>
+                <p>Writing clean, scalable code and integrating interactive elements.</p>
+            </div>
+            <div class="process-box">
+                <div class="step-number">4</div>
+                <i class='bx bx-rocket'></i>
+                <h3>Launch</h3>
+                <p>Optimizing for SEO, testing performance, and going live with support.</p>
+            </div>
         </div>
     </section>
 
@@ -1054,15 +1399,12 @@
     </footer>
 
 
-    <!-- SCROLL REVEAL CDN -->
-    <script src="https://unpkg.com/scrollreveal"></script>
-
     <!-- TYPED JS CDN -->
     <script src="https://unpkg.com/typed.js@2.0.16/dist/typed.umd.js"></script>
 
     <!-- Custom JS -->
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             // --- MENU ICON & NAVBAR ---
             let menuIcon = document.querySelector('#menu-icon');
             let navbar = document.querySelector('.navbar');
@@ -1100,27 +1442,6 @@
                 navbar.classList.remove('active');
             };
 
-            // --- DARK/LIGHT MODE TOGGLE ---
-            let darkModeIcon = document.querySelector('#darkMode-icon');
-
-            darkModeIcon.onclick = () => {
-                darkModeIcon.classList.toggle('bx-sun');
-                document.body.classList.toggle('dark-mode');
-            };
-
-            // --- SCROLL REVEAL ANIMATION ---
-            ScrollReveal({
-                // reset: true, // Uncomment to make animations repeat on scroll
-                distance: '80px',
-                duration: 2000,
-                delay: 200
-            });
-
-            ScrollReveal().reveal('.home-content, .heading', { origin: 'top' });
-            ScrollReveal().reveal('.home-img, .services-container, .portfolio-box, .contact form', { origin: 'bottom' });
-            ScrollReveal().reveal('.home-content h1, .about-img', { origin: 'left' });
-            ScrollReveal().reveal('.home-content h3, .home-content p, .about-content', { origin: 'right' });
-
             // --- SHOW MORE/LESS PROJECTS ---
             const showMoreBtn = document.getElementById('show-more-btn');
             const projectsToToggle = document.querySelectorAll('.project-hidden');
@@ -1128,13 +1449,16 @@
 
             showMoreBtn.addEventListener('click', (e) => {
                 e.preventDefault();
-                areProjectsVisible = !areProjectsVisible; // Toggle the state
+                areProjectsVisible = !areProjectsVisible;
 
                 projectsToToggle.forEach(project => {
                     project.classList.toggle('show');
                 });
 
                 showMoreBtn.textContent = areProjectsVisible ? 'Show Less' : 'Show More';
+
+                // Refresh ScrollTrigger to account for new layout height
+                ScrollTrigger.refresh();
             });
 
             // --- TYPED JS FOR ANIMATED TEXT ---
@@ -1145,7 +1469,311 @@
                 backDelay: 1000,
                 loop: true
             });
+
+            // --- THREE.JS BACKGROUND ---
+            function initThree() {
+                const canvas = document.querySelector('#bg-canvas');
+                const scene = new THREE.Scene();
+                const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+                const renderer = new THREE.WebGLRenderer({ canvas, alpha: true });
+
+                renderer.setSize(window.innerWidth, window.innerHeight);
+                renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+                // Custom Particle Texture
+                const createCircleTexture = () => {
+                    const canvas = document.createElement('canvas');
+                    canvas.width = 64;
+                    canvas.height = 64;
+                    const ctx = canvas.getContext('2d');
+                    const gradient = ctx.createRadialGradient(32, 32, 0, 32, 32, 32);
+                    gradient.addColorStop(0, 'rgba(255, 255, 255, 1)');
+                    gradient.addColorStop(0.2, 'rgba(0, 255, 255, 0.8)');
+                    gradient.addColorStop(0.5, 'rgba(0, 128, 128, 0.3)');
+                    gradient.addColorStop(1, 'rgba(0, 0, 0, 0)');
+                    ctx.fillStyle = gradient;
+                    ctx.fillRect(0, 0, 64, 64);
+                    const texture = new THREE.CanvasTexture(canvas);
+                    return texture;
+                };
+
+                const particleTexture = createCircleTexture();
+
+                const createParticles = (count, size, colorRange) => {
+                    const geometry = new THREE.BufferGeometry();
+                    const positions = new Float32Array(count * 3);
+                    const colors = new Float32Array(count * 3);
+                    const sizes = new Float32Array(count);
+
+                    for (let i = 0; i < count; i++) {
+                        positions[i * 3] = (Math.random() - 0.5) * 15;
+                        positions[i * 3 + 1] = (Math.random() - 0.5) * 15;
+                        positions[i * 3 + 2] = (Math.random() - 0.5) * 15;
+
+                        // Randomize colors between Teal and Cyan
+                        const color = new THREE.Color();
+                        color.setHSL(0.5 + Math.random() * 0.1, 0.8, 0.4 + Math.random() * 0.3);
+                        colors[i * 3] = color.r;
+                        colors[i * 3 + 1] = color.g;
+                        colors[i * 3 + 2] = color.b;
+
+                        sizes[i] = Math.random();
+                    }
+
+                    geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+                    geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+
+                    const material = new THREE.PointsMaterial({
+                        size: size,
+                        map: particleTexture,
+                        transparent: true,
+                        blending: THREE.AdditiveBlending,
+                        depthWrite: false,
+                        vertexColors: true,
+                        opacity: 0.6
+                    });
+
+                    return new THREE.Points(geometry, material);
+                };
+
+                const layer1 = createParticles(3000, 0.05); // Near/Large
+                const layer2 = createParticles(5000, 0.02); // Far/Small
+                scene.add(layer1);
+                scene.add(layer2);
+
+                camera.position.z = 5;
+
+                let mouseX = 0;
+                let mouseY = 0;
+
+                document.addEventListener('mousemove', (event) => {
+                    mouseX = (event.clientX / window.innerWidth - 0.5);
+                    mouseY = (event.clientY / window.innerHeight - 0.5);
+                });
+
+                function animate() {
+                    requestAnimationFrame(animate);
+                    const time = Date.now() * 0.0001;
+
+                    layer1.rotation.y = time * 0.2;
+                    layer1.rotation.x = time * 0.1;
+
+                    layer2.rotation.y = -time * 0.15;
+                    layer2.rotation.z = time * 0.05;
+
+                    // Parallax
+                    layer1.position.x += (mouseX * 0.8 - layer1.position.x) * 0.02;
+                    layer1.position.y += (-mouseY * 0.8 - layer1.position.y) * 0.02;
+
+                    layer2.position.x += (mouseX * 0.4 - layer2.position.x) * 0.01;
+                    // Twinkling effect
+                    layer1.material.opacity = 0.5 + Math.sin(time * 10) * 0.1;
+                    layer2.material.opacity = 0.4 + Math.cos(time * 7) * 0.1;
+
+                    renderer.render(scene, camera);
+                }
+
+                window.addEventListener('resize', () => {
+                    camera.aspect = window.innerWidth / window.innerHeight;
+                    camera.updateProjectionMatrix();
+                    renderer.setSize(window.innerWidth, window.innerHeight);
+                });
+
+                animate();
+            }
+
+            function initHeroObject() {
+                const canvas = document.querySelector('#hero-canvas');
+                const scene = new THREE.Scene();
+                const camera = new THREE.PerspectiveCamera(75, 1, 0.1, 1000);
+                const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
+
+                renderer.setSize(canvas.clientWidth, canvas.clientHeight);
+                renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+                // Group for complex object
+                const group = new THREE.Group();
+                scene.add(group);
+
+                // 1. Solid Core
+                const coreGeo = new THREE.IcosahedronGeometry(1, 0);
+                const coreMat = new THREE.MeshStandardMaterial({
+                    color: 0x008080,
+                    flatShading: true,
+                    metalness: 0.8,
+                    roughness: 0.2
+                });
+                const core = new THREE.Mesh(coreGeo, coreMat);
+                group.add(core);
+
+                // 2. Translucent wireframe
+                const wireGeo = new THREE.IcosahedronGeometry(1.2, 1);
+                const wireMat = new THREE.MeshBasicMaterial({
+                    color: 0x00ffff,
+                    wireframe: true,
+                    transparent: true,
+                    opacity: 0.2
+                });
+                const wireframe = new THREE.Mesh(wireGeo, wireMat);
+                group.add(wireframe);
+
+                // 3. Floating points
+                const pointsGeo = new THREE.IcosahedronGeometry(1.5, 2);
+                const pointsMat = new THREE.PointsMaterial({
+                    color: 0x00f2ff,
+                    size: 0.05,
+                    transparent: true,
+                    opacity: 0.5
+                });
+                const points = new THREE.Points(pointsGeo, pointsMat);
+                group.add(points);
+
+                // Lighting
+                const ambientLight = new THREE.AmbientLight(0xffffff, 0.4);
+                scene.add(ambientLight);
+
+                const pointLight1 = new THREE.PointLight(0x00f2ff, 1.5);
+                pointLight1.position.set(2, 2, 2);
+                scene.add(pointLight1);
+
+                const pointLight2 = new THREE.PointLight(0x008080, 2);
+                pointLight2.position.set(-2, -2, 2);
+                scene.add(pointLight2);
+
+                camera.position.z = 3.5;
+
+                function animate() {
+                    requestAnimationFrame(animate);
+
+                    core.rotation.x += 0.005;
+                    core.rotation.y += 0.005;
+
+                    wireframe.rotation.x -= 0.002;
+                    wireframe.rotation.z += 0.002;
+
+                    points.rotation.y += 0.003;
+
+                    const scrollPos = window.scrollY * 0.001;
+                    group.rotation.y = scrollPos;
+                    group.position.y = Math.sin(Date.now() * 0.002) * 0.1;
+
+                    renderer.render(scene, camera);
+                }
+
+                window.addEventListener('resize', () => {
+                    const width = canvas.clientWidth;
+                    const height = canvas.clientHeight;
+                    renderer.setSize(width, height);
+                    camera.aspect = width / height;
+                    camera.updateProjectionMatrix();
+                });
+
+                animate();
+            }
+
+            initThree();
+            initHeroObject();
+
+            // --- GSAP ANIMATIONS ---
+            gsap.registerPlugin(ScrollTrigger);
+
+            // GSAP Batch for professional staggered reveal
+            const animTargets = ".portfolio-box, .services-box, .experience-box, .process-box, .about-badge";
+            gsap.set(animTargets, { y: 50, opacity: 0 });
+
+            ScrollTrigger.batch(animTargets, {
+                onEnter: batch => gsap.to(batch, { opacity: 1, y: 0, stagger: 0.15, overwrite: true, duration: 0.8, ease: "power2.out" }),
+                onEnterBack: batch => gsap.to(batch, { opacity: 1, y: 0, stagger: 0.15, overwrite: true, duration: 0.8, ease: "power2.out" }),
+                start: "top 90%",
+            });
+
+            // Parallax effect for about section content
+            gsap.to(".about-img", {
+                scrollTrigger: {
+                    trigger: ".about",
+                    start: "top bottom",
+                    scrub: true
+                },
+                y: -50,
+                ease: "none"
+            });
+
+            // --- 3D TILT EFFECT FOR CARDS ---
+            const standardCards = ".portfolio-box, .services-box, .process-box, .about-img-container";
+            const experienceCards = ".experience-box";
+
+            document.querySelectorAll(standardCards).forEach(card => {
+                card.addEventListener('mousemove', (e) => {
+                    const rect = card.getBoundingClientRect();
+                    const x = e.clientX - rect.left;
+                    const y = e.clientY - rect.top;
+                    const centerX = rect.width / 2;
+                    const centerY = rect.height / 2;
+                    const rotateX = (y - centerY) / 10;
+                    const rotateY = (centerX - x) / 10;
+
+                    gsap.to(card, {
+                        rotateX: rotateX,
+                        rotateY: rotateY,
+                        scale: 1.05,
+                        duration: 0.5,
+                        ease: "power2.out",
+                        transformPerspective: 1000
+                    });
+                });
+
+                card.addEventListener('mouseleave', () => {
+                    gsap.to(card, {
+                        rotateX: 0,
+                        rotateY: 0,
+                        scale: 1,
+                        duration: 0.5,
+                        ease: "power2.out"
+                    });
+                });
+            });
+
+            document.querySelectorAll(experienceCards).forEach(card => {
+                card.addEventListener('mousemove', (e) => {
+                    const rect = card.getBoundingClientRect();
+                    const x = e.clientX - rect.left;
+                    const y = e.clientY - rect.top;
+                    const centerY = rect.height / 2;
+
+                    // Hinged tilt calculation
+                    let rotateY = 0;
+                    if (card.classList.contains('left')) {
+                        // Pivots from the right edge
+                        rotateY = ((rect.width - x) / rect.width) * 15;
+                    } else {
+                        // Pivots from the left edge
+                        rotateY = -(x / rect.width) * 15;
+                    }
+
+                    const rotateX = (y - centerY) / 20;
+
+                    gsap.to(card, {
+                        rotateX: rotateX,
+                        rotateY: rotateY,
+                        scale: 1, // Stay joined to the line
+                        duration: 0.5,
+                        ease: "power2.out",
+                        transformPerspective: 1000
+                    });
+                });
+
+                card.addEventListener('mouseleave', () => {
+                    gsap.to(card, {
+                        rotateX: 0,
+                        rotateY: 0,
+                        scale: 1,
+                        duration: 0.5,
+                        ease: "power2.out"
+                    });
+                });
+            });
         });
     </script>
 </body>
+
 </html>
