@@ -1,0 +1,805 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Azizul Hasan Raihan | Software Engineer & CEO</title>
+    <meta name="description" content="Explore the portfolio of Azizul Hasan Raihan, a full-stack hacker and software engineer from Dhaka, Bangladesh, showcasing cutting-edge projects and digital wizardry.">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Space+Grotesk:wght@300;500;700&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Icons & Animations -->
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="https://unpkg.com/typed.js@2.0.16/dist/typed.umd.js"></script>
+
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Person",
+      "name": "Azizul Hasan Raihan",
+      "jobTitle": "CEO & Full Stack Web Application Developer",
+      "worksFor": {
+        "@type": "Organization",
+        "name": "Relic Software",
+        "url": "https://relicsoftware.com"
+      },
+      "alumniOf": {
+        "@type": "EducationalOrganization",
+        "name": "Manarat International University"
+      }
+    }
+    </script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        cyber: {
+                            bg: '#050505',
+                            primary: '#14b8a6',   /* Teal 500 */
+                            secondary: '#f97316', /* Orange 500 */
+                            accent: '#0d9488',    /* Teal 600 */
+                            glass: 'rgba(10, 10, 10, 0.85)',
+                            border: 'rgba(20, 184, 166, 0.2)'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Outfit', 'sans-serif'],
+                        mono: ['Space Grotesk', 'monospace'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            background-color: #050505;
+            color: #f8fafc;
+            overflow-x: hidden;
+            width: 100%;
+        }
+
+        .glass-card {
+            background: var(--cyber-glass);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .glass-card:hover {
+            border-color: #f97316;
+            box-shadow: 0 0 40px rgba(249, 115, 22, 0.1);
+            transform: translateY(-8px);
+        }
+
+        .text-gradient {
+            background: linear-gradient(90deg, #14b8a6, #f97316);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        #bg-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: -1;
+            width: 100%;
+            height: 100%;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #050505; }
+        ::-webkit-scrollbar-thumb { 
+            background: #14b8a6; 
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb:hover { background: #f97316; }
+
+        .nav-link {
+            position: relative;
+            transition: color 0.3s ease;
+        }
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -4px;
+            left: 0;
+            background: #f97316;
+            transition: width 0.3s ease;
+        }
+        .nav-link:hover::after { width: 100%; }
+
+        /* Experience Timeline Marker */
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -9px;
+            top: 6px;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background: #14b8a6;
+            box-shadow: 0 0 15px #14b8a6;
+            z-index: 2;
+        }
+
+        .cyber-btn {
+            position: relative;
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 1;
+        }
+        .cyber-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+            transition: 0.6s;
+        }
+        .cyber-btn:hover::before { left: 100%; }
+        
+        .cyber-btn-primary {
+            background: linear-gradient(135deg, #14b8a6, #0d9488);
+            box-shadow: 0 4px 15px rgba(20, 184, 166, 0.3);
+        }
+        
+        .cyber-btn-primary:hover {
+            box-shadow: 0 6px 25px rgba(20, 184, 166, 0.5);
+            transform: scale(1.05);
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+        .float-anim { animation: float 6s ease-in-out infinite; }
+
+        .project-card.project-hidden { display: none; }
+        .project-card.project-hidden.show { display: flex; }
+
+        /* Initial visibility for reveal elements - set to visible for JS fallback, JS will handle hidden state */
+        .reveal-up, .reveal-left, .reveal-right, .skill-item {
+            visibility: visible;
+        }
+    </style>
+</head>
+<body class="font-sans antialiased">
+    <canvas id="bg-canvas"></canvas>
+
+    <!-- Navigation -->
+    <header class="fixed top-0 w-full z-50 border-b border-white/5 bg-cyber-bg/90 backdrop-blur-xl">
+        <nav class="container mx-auto px-6 h-20 flex items-center justify-between">
+            <a href="#" class="text-2xl font-bold font-mono tracking-tighter">
+                <span class="text-cyber-primary">A.H.</span>RAIHAN<span class="text-cyber-secondary">.</span>
+            </a>
+            
+            <div class="hidden md:flex items-center space-x-8 font-mono text-xs uppercase tracking-widest">
+                <a href="#home" class="nav-link">Home</a>
+                <a href="#about" class="nav-link">About</a>
+                <a href="#skills" class="nav-link">Skills</a>
+                <a href="#experience" class="nav-link">Experience</a>
+                <a href="#portfolio" class="nav-link">Projects</a>
+                <a href="#contact" class="nav-link text-cyber-secondary">Connect</a>
+            </div>
+
+            <button id="mobile-menu-btn" class="md:hidden text-3xl text-cyber-primary">
+                <i class='bx bx-grid-alt'></i>
+            </button>
+        </nav>
+    </header>
+
+    <!-- Mobile Navigation -->
+    <div id="mobile-menu" class="fixed inset-0 z-[60] bg-cyber-bg hidden flex-col items-center justify-center space-y-8 text-2xl font-mono uppercase">
+        <button id="close-menu" class="absolute top-8 right-8 text-4xl text-cyber-secondary"><i class='bx bx-x'></i></button>
+        <a href="#home" class="mobile-nav-link hover:text-cyber-primary">Home</a>
+        <a href="#about" class="mobile-nav-link hover:text-cyber-primary">About</a>
+        <a href="#skills" class="mobile-nav-link hover:text-cyber-primary">Skills</a>
+        <a href="#experience" class="mobile-nav-link hover:text-cyber-primary">Experience</a>
+        <a href="#portfolio" class="mobile-nav-link hover:text-cyber-primary">Projects</a>
+        <a href="#contact" class="mobile-nav-link text-cyber-secondary">Connect</a>
+    </div>
+
+    <main>
+        <!-- Hero Section -->
+        <section id="home" class="min-h-screen flex items-center pt-20 px-6 overflow-hidden">
+            <div class="container mx-auto grid md:grid-cols-12 gap-12 items-center">
+                <div class="hero-text z-10 md:col-span-7">
+                    <p class="font-mono text-cyber-secondary mb-4 tracking-[0.4em] uppercase opacity-0 translate-y-4">Identity verified</p>
+                    <h1 class="text-5xl md:text-7xl lg:text-8xl font-extrabold leading-[1.1] mb-6 opacity-0 translate-y-4">
+                        Azizul <span class="text-cyber-primary text-4xl md:text-6xl lg:text-7xl">Hasan</span> <br> 
+                        <span class="text-gradient">Raihan</span>
+                    </h1>
+                    <h2 class="text-xl md:text-2xl font-mono mb-8 opacity-0 translate-y-4 border-l-4 border-cyber-secondary pl-6">
+                        <span id="typing-text" class="text-slate-300"></span>
+                    </h2>
+                    <p class="text-slate-400 text-lg max-w-lg mb-10 opacity-0 translate-y-4 leading-relaxed">
+                        Full-stack software engineer and CEO of <strong>Relic Software</strong>. Based in Dhaka, I engineer innovative digital solutions and captivating web experiences.
+                    </p>
+                    <div class="flex flex-wrap gap-5 opacity-0 translate-y-4">
+                        <a href="#portfolio" class="cyber-btn cyber-btn-primary px-8 py-4 text-white font-bold rounded-xl">View Artifacts</a>
+                        <a href="#contact" class="cyber-btn px-8 py-4 border border-cyber-secondary/40 text-cyber-secondary hover:bg-cyber-secondary/10 rounded-xl backdrop-blur-sm">Contact System</a>
+                    </div>
+                </div>
+                <div class="relative hero-visual hidden md:flex md:col-span-5 justify-center items-center">
+                    <div class="absolute w-[350px] lg:w-[450px] h-[350px] lg:h-[450px] border-2 border-dashed border-cyber-primary/10 rounded-full animate-[spin_40s_linear_infinite]"></div>
+                    <div class="absolute w-[250px] lg:w-[350px] h-[250px] lg:h-[350px] border border-cyber-secondary/20 rounded-full animate-[spin_20s_linear_infinite_reverse]"></div>
+                    <div class="float-anim w-full">
+                        <canvas id="hero-canvas" class="w-full h-full max-w-[450px] aspect-square mx-auto"></canvas>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- About Section -->
+        <section id="about" class="py-24 md:py-32 px-6 relative">
+            <div class="container mx-auto">
+                <div class="flex flex-col md:flex-row gap-12 lg:gap-20 items-center justify-center">
+                    <div class="w-full md:w-5/12 lg:w-4/12 flex justify-center reveal-left">
+                        <div class="relative group w-full max-w-[320px] lg:max-w-[380px]">
+                            <div class="absolute -inset-4 bg-gradient-to-tr from-cyber-primary to-cyber-secondary opacity-20 blur-2xl group-hover:opacity-40 transition-opacity"></div>
+                            <div class="relative overflow-hidden rounded-3xl aspect-[4/5] glass-card p-2 lg:p-3">
+                                <img src="https://ceo.relicsoftware.com/Ah-raihan.jpg" alt="Azizul Hasan Raihan" class="w-full h-full object-cover rounded-2xl filter contrast-125 brightness-90 group-hover:brightness-105 transition-all duration-700"
+                                     onerror="this.src='https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=800&auto=format&fit=crop'">
+                                <div class="absolute top-6 right-6 flex flex-col items-end space-y-2">
+                                    <span class="bg-cyber-primary/90 px-2 py-0.5 rounded text-[9px] font-mono font-bold text-white uppercase shadow-lg">Verified</span>
+                                    <span class="bg-cyber-secondary/90 px-2 py-0.5 rounded text-[9px] font-mono font-bold text-white uppercase shadow-lg">CEO</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="w-full md:w-7/12 lg:w-6/12 reveal-right">
+                        <div class="inline-block px-4 py-1 rounded-full border border-cyber-primary/30 font-mono text-xs text-cyber-primary mb-6"># CORE_PROFILE</div>
+                        <h2 class="text-4xl md:text-5xl font-bold mb-8 leading-tight">Helping Your <span class="text-cyber-secondary underline decoration-cyber-primary/30">Next Project</span> Succeed</h2>
+                        <p class="text-slate-400 text-lg mb-8 leading-relaxed">
+                            A passionate software engineer and web developer from Dhaka, Bangladesh. As the CEO of <span class="text-cyber-primary font-bold">Relic Software</span>, I focus on delivering high-fidelity digital solutions across diverse industries. 
+                            <br><br>
+                            Alumni of <span class="text-white font-semibold">Manarat International University</span>, I've spent over half a decade refining my skills in full-stack architectures and real-time systems.
+                        </p>
+                        
+                        <div class="grid grid-cols-2 gap-8 mb-10">
+                            <div class="border-l-2 border-cyber-primary pl-6">
+                                <h4 class="text-3xl font-bold text-white">5+</h4>
+                                <p class="text-xs font-mono uppercase text-slate-500 tracking-tighter">Years Production XP</p>
+                            </div>
+                            <div class="border-l-2 border-cyber-secondary pl-6">
+                                <h4 class="text-3xl font-bold text-white">12+</h4>
+                                <p class="text-xs font-mono uppercase text-slate-500 tracking-tighter">Major Deployments</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex flex-wrap items-center gap-6">
+                            <a href="#" class="cyber-btn cyber-btn-primary px-10 py-4 rounded-xl font-bold text-sm">Download Dossier</a>
+                            <div class="flex items-center space-x-4">
+                                <a href="https://github.com/ah-raihan" target="_blank" class="text-2xl text-slate-400 hover:text-cyber-primary"><i class='bx bxl-github'></i></a>
+                                <a href="https://linkedin.com/in/azizul-hasan-raihan-97214b35b" target="_blank" class="text-2xl text-slate-400 hover:text-cyber-secondary"><i class='bx bxl-linkedin'></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Skills Section -->
+        <section id="skills" class="py-24 md:py-32 px-6 bg-[#030303]">
+            <div class="container mx-auto">
+                <div class="text-center mb-16 md:mb-20">
+                    <h2 class="text-4xl md:text-5xl font-bold mb-4">Core <span class="text-gradient">Tech Stacks</span></h2>
+                    <p class="text-slate-500 font-mono text-sm uppercase">Weaponry of Choice</p>
+                </div>
+                <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-6 max-w-6xl mx-auto">
+                    <div class="skill-item glass-card p-8 rounded-2xl flex flex-col items-center justify-center gap-4">
+                        <i class='bx bxl-html5 text-5xl text-[#E34F26]'></i>
+                        <span class="font-mono text-xs font-bold uppercase tracking-widest">HTML5/CSS3</span>
+                    </div>
+                    <div class="skill-item glass-card p-8 rounded-2xl flex flex-col items-center justify-center gap-4">
+                        <i class='bx bxl-bootstrap text-5xl text-[#7952B3]'></i>
+                        <span class="font-mono text-xs font-bold uppercase tracking-widest">Bootstrap</span>
+                    </div>
+                    <div class="skill-item glass-card p-8 rounded-2xl flex flex-col items-center justify-center gap-4">
+                        <i class='bx bxl-javascript text-5xl text-[#F7DF1E]'></i>
+                        <span class="font-mono text-xs font-bold uppercase tracking-widest">JavaScript</span>
+                    </div>
+                    <div class="skill-item glass-card p-8 rounded-2xl flex flex-col items-center justify-center gap-4">
+                        <i class='bx bxl-vuejs text-5xl text-[#4FC08D]'></i>
+                        <span class="font-mono text-xs font-bold uppercase tracking-widest">Vue.js</span>
+                    </div>
+                    <div class="skill-item glass-card p-8 rounded-2xl flex flex-col items-center justify-center gap-4">
+                        <i class='bx bxl-php text-5xl text-[#777BB4]'></i>
+                        <span class="font-mono text-xs font-bold uppercase tracking-widest">PHP/Laravel</span>
+                    </div>
+                    <div class="skill-item glass-card p-8 rounded-2xl flex flex-col items-center justify-center gap-4">
+                        <i class='bx bxl-python text-5xl text-[#3776AB]'></i>
+                        <span class="font-mono text-xs font-bold uppercase tracking-widest">Python</span>
+                    </div>
+                    <div class="skill-item glass-card p-8 rounded-2xl flex flex-col items-center justify-center gap-4">
+                        <i class='bx bx-data text-5xl text-[#4479A1]'></i>
+                        <span class="font-mono text-xs font-bold uppercase tracking-widest">MySQL</span>
+                    </div>
+                    <div class="skill-item glass-card p-8 rounded-2xl flex flex-col items-center justify-center gap-4">
+                        <i class='bx bxl-c-plus-plus text-5xl text-[#00599C]'></i>
+                        <span class="font-mono text-xs font-bold uppercase tracking-widest">C/C++</span>
+                    </div>
+                    <div class="skill-item glass-card p-8 rounded-2xl flex flex-col items-center justify-center gap-4">
+                        <i class='bx bx-chip text-5xl text-[#00979D]'></i>
+                        <span class="font-mono text-xs font-bold uppercase tracking-widest">Arduino</span>
+                    </div>
+                    <div class="skill-item glass-card p-8 rounded-2xl flex flex-col items-center justify-center gap-4">
+                        <i class='bx bxl-git text-5xl text-[#F05032]'></i>
+                        <span class="font-mono text-xs font-bold uppercase tracking-widest">Git/GitHub</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Experience Section -->
+        <section id="experience" class="py-24 md:py-32 px-6 bg-[#0a0a0a]">
+            <div class="container mx-auto">
+                <div class="flex flex-col md:flex-row justify-between items-end mb-16 md:mb-20 gap-8">
+                    <div class="max-w-xl">
+                        <h2 class="text-4xl md:text-5xl font-bold mb-6">Service <span class="text-cyber-primary">History</span></h2>
+                        <p class="text-slate-500 font-mono text-sm uppercase tracking-widest underline decoration-cyber-secondary/50">Deployment logs 2019-2025</p>
+                    </div>
+                </div>
+                
+                <div class="max-w-4xl mx-auto border-l border-white/10 ml-4 md:ml-auto">
+                    <div class="relative pl-8 md:pl-12 pb-16 timeline-item group">
+                        <div class="font-mono text-cyber-secondary text-sm mb-4 opacity-80 reveal-up">2023 // PRESENT</div>
+                        <div class="glass-card p-6 md:p-10 rounded-3xl reveal-up">
+                            <div class="flex flex-col md:flex-row md:items-center justify-between mb-4">
+                                <h3 class="text-xl md:text-2xl font-bold text-white">CEO & Lead Architect</h3>
+                                <span class="text-cyber-primary font-mono text-[10px] mt-2 md:mt-0 px-3 py-1 border border-cyber-primary/20 rounded self-start">Relic Software</span>
+                            </div>
+                            <p class="text-slate-400 leading-relaxed text-sm md:text-base">Directing technical vision and operational strategy. Managing a portfolio of high-growth clients while architecting scalable multi-tenant platforms.</p>
+                        </div>
+                    </div>
+                    <div class="relative pl-8 md:pl-12 pb-16 timeline-item group">
+                        <div class="font-mono text-cyber-secondary text-sm mb-4 opacity-80 reveal-up">2021 // 2023</div>
+                        <div class="glass-card p-6 md:p-10 rounded-3xl reveal-up">
+                            <div class="flex flex-col md:flex-row md:items-center justify-between mb-4">
+                                <h3 class="text-xl md:text-2xl font-bold text-white">Full-Stack Engineer</h3>
+                                <span class="text-cyber-primary font-mono text-[10px] mt-2 md:mt-0 px-3 py-1 border border-cyber-primary/20 rounded self-start">Commercial Dev</span>
+                            </div>
+                            <p class="text-slate-400 leading-relaxed text-sm md:text-base">Engineered robust back-end infrastructures using Laravel. Implemented responsive frontend systems for FinTech and EdTech sectors.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Portfolio Section -->
+        <section id="portfolio" class="py-24 md:py-32 px-6">
+            <div class="container mx-auto">
+                <div class="flex flex-col md:flex-row justify-between items-center mb-16 md:mb-20">
+                    <div>
+                        <h2 class="text-4xl md:text-5xl font-bold mb-4">Latest <span class="text-gradient">Artifacts</span></h2>
+                        <p class="text-slate-500 font-mono text-sm uppercase">Selected Projects & Prototypes</p>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-10">
+                    <!-- Project Cards -->
+                    <div class="project-card group reveal-up">
+                        <div class="glass-card rounded-3xl overflow-hidden h-full flex flex-col border-b-4 border-cyber-primary">
+                            <div class="relative h-56 lg:h-64 overflow-hidden">
+                                <img src="https://ceo.relicsoftware.com/projects/madrasatuir.com.jpeg" alt="EMS" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" onerror="this.src='https://images.unsplash.com/photo-1546410531-bb4caa6b424d?w=800'">
+                                <div class="absolute inset-0 bg-gradient-to-t from-cyber-bg to-transparent opacity-60"></div>
+                                <div class="absolute bottom-4 left-6">
+                                    <span class="text-[10px] font-mono bg-cyber-primary text-white px-2 py-0.5 rounded uppercase">System</span>
+                                </div>
+                            </div>
+                            <div class="p-6 md:p-8 flex-grow">
+                                <h3 class="text-xl md:text-2xl font-bold mb-3 group-hover:text-cyber-primary transition-colors">Madrasatuir EMS</h3>
+                                <p class="text-slate-400 text-sm mb-8 leading-relaxed">Comprehensive Education Management System for institutional workflows.</p>
+                                <a href="https://www.madrasatuir.com/" target="_blank" class="flex items-center justify-between text-[10px] md:text-xs font-mono font-bold text-cyber-secondary group/link">
+                                    <span>OPEN_ACCESS</span>
+                                    <i class='bx bx-right-top-arrow-circle text-2xl group-hover/link:translate-x-1 group-hover/link:-translate-y-1 transition-transform'></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="project-card group reveal-up">
+                        <div class="glass-card rounded-3xl overflow-hidden h-full flex flex-col border-b-4 border-cyber-secondary">
+                            <div class="relative h-56 lg:h-64 overflow-hidden">
+                                <img src="https://ceo.relicsoftware.com/projects/azhanshop.com.jpeg" alt="Azhan Shop" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" onerror="this.src='https://images.unsplash.com/photo-1557821552-17105176677c?w=800'">
+                                <div class="absolute inset-0 bg-gradient-to-t from-cyber-bg to-transparent opacity-60"></div>
+                                <div class="absolute bottom-4 left-6">
+                                    <span class="text-[10px] font-mono bg-cyber-secondary text-white px-2 py-0.5 rounded uppercase">Commercial</span>
+                                </div>
+                            </div>
+                            <div class="p-6 md:p-8 flex-grow">
+                                <h3 class="text-xl md:text-2xl font-bold mb-3 group-hover:text-cyber-secondary transition-colors">Azhan Shop</h3>
+                                <p class="text-slate-400 text-sm mb-8 leading-relaxed">High-performance storefront with integrated payment gateways.</p>
+                                <a href="https://azhanshop.com/" target="_blank" class="flex items-center justify-between text-[10px] md:text-xs font-mono font-bold text-cyber-primary group/link">
+                                    <span>VIEW_STORE</span>
+                                    <i class='bx bx-right-top-arrow-circle text-2xl group-hover/link:translate-x-1 group-hover/link:-translate-y-1 transition-transform'></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="project-card group reveal-up">
+                        <div class="glass-card rounded-3xl overflow-hidden h-full flex flex-col border-b-4 border-cyber-primary">
+                            <div class="relative h-56 lg:h-64 overflow-hidden">
+                                <img src="https://ceo.relicsoftware.com/projects/fidesbd.com.jpeg" alt="Real Estate" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" onerror="this.src='https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=800'">
+                                <div class="absolute inset-0 bg-gradient-to-t from-cyber-bg to-transparent opacity-60"></div>
+                                <div class="absolute bottom-4 left-6">
+                                    <span class="text-[10px] font-mono bg-cyber-primary text-white px-2 py-0.5 rounded uppercase">Real Estate</span>
+                                </div>
+                            </div>
+                            <div class="p-6 md:p-8 flex-grow">
+                                <h3 class="text-xl md:text-2xl font-bold mb-3 group-hover:text-cyber-primary transition-colors">Fidesbd Real Estate</h3>
+                                <p class="text-slate-400 text-sm mb-8 leading-relaxed">Modern website platform for real estate management and listing.</p>
+                                <a href="https://fidesbd.com" target="_blank" class="flex items-center justify-between text-[10px] md:text-xs font-mono font-bold text-cyber-secondary group/link">
+                                    <span>EXPLORE</span>
+                                    <i class='bx bx-right-top-arrow-circle text-2xl group-hover/link:translate-x-1 group-hover/link:-translate-y-1 transition-transform'></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Hidden Projects -->
+                    <div class="project-card project-hidden group reveal-up">
+                        <div class="glass-card rounded-3xl overflow-hidden h-full flex flex-col border-b-4 border-cyber-secondary">
+                            <div class="relative h-56 lg:h-64 overflow-hidden">
+                                <img src="https://ceo.relicsoftware.com/projects/markajbd.com.jpeg" alt="EdTech" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+                                <div class="absolute bottom-4 left-6"><span class="text-[10px] font-mono bg-cyber-secondary text-white px-2 py-0.5 rounded">EDTECH</span></div>
+                            </div>
+                            <div class="p-6 md:p-8 flex-grow">
+                                <h3 class="text-xl md:text-2xl font-bold mb-3 group-hover:text-cyber-secondary transition-colors">Markajbd EdTech</h3>
+                                <p class="text-slate-400 text-sm mb-8 leading-relaxed">Online learning and teaching platform for distributed education.</p>
+                                <a href="https://markajbd.com" target="_blank" class="flex items-center justify-between text-xs font-mono font-bold text-cyber-primary group/link"><span>LAUNCH</span><i class='bx bx-right-top-arrow-circle text-2xl transition-transform'></i></a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="project-card project-hidden group reveal-up">
+                        <div class="glass-card rounded-3xl overflow-hidden h-full flex flex-col border-b-4 border-cyber-primary">
+                            <div class="relative h-56 lg:h-64 overflow-hidden">
+                                <img src="https://ceo.relicsoftware.com/projects/serviceanytimebd.com.jpeg" alt="Service" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+                                <div class="absolute bottom-4 left-6"><span class="text-[10px] font-mono bg-cyber-primary text-white px-2 py-0.5 rounded">SERVICE</span></div>
+                            </div>
+                            <div class="p-6 md:p-8 flex-grow">
+                                <h3 class="text-xl md:text-2xl font-bold mb-3 group-hover:text-cyber-primary transition-colors">Service Anytime</h3>
+                                <p class="text-slate-400 text-sm mb-8 leading-relaxed">Platform for servicing and electronic item sales.</p>
+                                <a href="https://serviceanytimebd.com" target="_blank" class="flex items-center justify-between text-xs font-mono font-bold text-cyber-secondary group/link"><span>CONNECT</span><i class='bx bx-right-top-arrow-circle text-2xl transition-transform'></i></a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="project-card project-hidden group reveal-up">
+                        <div class="glass-card rounded-3xl overflow-hidden h-full flex flex-col border-b-4 border-cyber-secondary">
+                            <div class="relative h-56 lg:h-64 overflow-hidden">
+                                <img src="https://ceo.relicsoftware.com/projects/chat1-oj7c.onrender.com.jpeg" alt="Chat" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+                                <div class="absolute bottom-4 left-6"><span class="text-[10px] font-mono bg-cyber-secondary text-white px-2 py-0.5 rounded">SOCIAL</span></div>
+                            </div>
+                            <div class="p-6 md:p-8 flex-grow">
+                                <h3 class="text-xl md:text-2xl font-bold mb-3 group-hover:text-cyber-secondary transition-colors">Chat Application</h3>
+                                <p class="text-slate-400 text-sm mb-8 leading-relaxed">Real-time chat infrastructure with instant message delivery.</p>
+                                <a href="https://chat.relicsoftware.com/" target="_blank" class="flex items-center justify-between text-xs font-mono font-bold text-cyber-primary group/link"><span>CHAT_NOW</span><i class='bx bx-right-top-arrow-circle text-2xl transition-transform'></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-16 text-center">
+                    <button id="show-more-btn" class="px-8 py-4 glass-card font-mono text-sm rounded-full hover:bg-cyber-primary/10 tracking-widest uppercase text-cyber-primary">Expand_Archive</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="contact" class="py-24 md:py-32 px-6">
+            <div class="container mx-auto">
+                <div class="max-w-6xl mx-auto glass-card rounded-[2rem] md:rounded-[3rem] overflow-hidden grid lg:grid-cols-2">
+                    <div class="p-8 md:p-12 lg:p-20 bg-gradient-to-br from-[#0a0a0a] to-[#0d9488]/5">
+                        <h2 class="text-4xl md:text-5xl font-bold mb-8 italic">Let's <span class="text-gradient">Synch.</span></h2>
+                        <p class="text-slate-400 text-lg mb-12">I'm available for strategic consultations and high-end software development.</p>
+                        
+                        <div class="space-y-8 md:space-y-10">
+                            <div class="flex items-center group">
+                                <div class="w-12 h-12 md:w-14 md:h-14 rounded-2xl bg-cyber-primary/10 border border-cyber-primary/20 flex items-center justify-center text-cyber-primary group-hover:bg-cyber-primary group-hover:text-white transition-all">
+                                    <i class='bx bx-envelope text-2xl md:text-3xl'></i>
+                                </div>
+                                <div class="ml-4 md:ml-6">
+                                    <p class="text-[10px] font-mono text-slate-500 uppercase tracking-widest">Signal_Addr</p>
+                                    <p class="text-base md:text-xl font-bold break-all">web.ahraihan@gmail.com</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center group">
+                                <div class="w-12 h-12 md:w-14 md:h-14 rounded-2xl bg-cyber-secondary/10 border border-cyber-secondary/20 flex items-center justify-center text-cyber-secondary group-hover:bg-cyber-secondary group-hover:text-white transition-all">
+                                    <i class='bx bx-map-pin text-2xl md:text-3xl'></i>
+                                </div>
+                                <div class="ml-4 md:ml-6">
+                                    <p class="text-[10px] font-mono text-slate-500 uppercase tracking-widest">Node_Loc</p>
+                                    <p class="text-base md:text-xl font-bold">Dhaka, Bangladesh</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="flex space-x-6 mt-12 md:mt-16">
+                            <a href="https://facebook.com/web.ahraihan" target="_blank" class="text-2xl text-slate-500 hover:text-cyber-primary transition-colors"><i class='bx bxl-facebook'></i></a>
+                            <a href="https://twitter.com/AhraihanWeb" target="_blank" class="text-2xl text-slate-500 hover:text-cyber-secondary transition-colors"><i class='bx bxl-twitter'></i></a>
+                            <a href="https://instagram.com/web.ahraihan/" target="_blank" class="text-2xl text-slate-500 hover:text-cyber-primary transition-colors"><i class='bx bxl-instagram'></i></a>
+                        </div>
+                    </div>
+                    
+                    <div class="p-8 md:p-12 lg:p-20 border-t lg:border-t-0 lg:border-l border-white/5">
+                        <form id="contact-form" class="space-y-6 md:space-y-8">
+                            <div class="space-y-2">
+                                <label class="font-mono text-[9px] text-cyber-primary uppercase tracking-widest">Name_Identifier</label>
+                                <input type="text" placeholder="Full Name" required class="w-full bg-white/5 border border-white/10 p-4 md:p-5 rounded-2xl focus:outline-none focus:border-cyber-primary transition-all text-white">
+                            </div>
+                            <div class="space-y-2">
+                                <label class="font-mono text-[9px] text-cyber-secondary uppercase tracking-widest">Email_Target</label>
+                                <input type="email" placeholder="email@address.com" required class="w-full bg-white/5 border border-white/10 p-4 md:p-5 rounded-2xl focus:outline-none focus:border-cyber-secondary transition-all text-white">
+                            </div>
+                            <div class="space-y-2">
+                                <label class="font-mono text-[9px] text-slate-500 uppercase tracking-widest">Payload</label>
+                                <textarea rows="4" placeholder="How can we collaborate?" required class="w-full bg-white/5 border border-white/10 p-4 md:p-5 rounded-2xl focus:outline-none focus:border-cyber-primary transition-all text-white resize-none"></textarea>
+                            </div>
+                            <button type="submit" class="cyber-btn cyber-btn-primary w-full text-white font-bold py-4 md:py-5 rounded-2xl text-lg shadow-xl">Transmit_Signal</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="py-12 md:py-16 border-t border-white/5 bg-[#050505] text-center">
+        <div class="container mx-auto px-6">
+            <div class="mb-6 md:mb-8">
+                <span class="text-xl md:text-2xl font-bold font-mono tracking-tighter">
+                    <span class="text-cyber-primary">A.H.</span>RAIHAN<span class="text-cyber-secondary">.</span>
+                </span>
+            </div>
+            <a href="https://ceo.relicsoftware.com/" class="font-mono text-[10px] text-primary-600 tracking-[0.2em] mb-4 btn">Switch Theme</a><br>
+            <p class="font-mono text-[10px] text-slate-600 tracking-[0.2em] mb-4 uppercase">System Operational // Dhaka Node</p>
+            <p class="text-slate-500 text-xs italic opacity-50">© 2025 Azizul Hasan Raihan. Built for the future of Relic Software.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Mobile Menu
+            const btn = document.getElementById('mobile-menu-btn');
+            const menu = document.getElementById('mobile-menu');
+            const close = document.getElementById('close-menu');
+            
+            btn.onclick = () => menu.classList.remove('hidden');
+            close.onclick = () => menu.classList.add('hidden');
+            document.querySelectorAll('.mobile-nav-link').forEach(link => {
+                link.onclick = () => menu.classList.add('hidden');
+            });
+
+            // Show More Projects
+            const showMoreBtn = document.getElementById('show-more-btn');
+            const hiddenProjects = document.querySelectorAll('.project-hidden');
+            let visible = false;
+
+            showMoreBtn.addEventListener('click', () => {
+                visible = !visible;
+                hiddenProjects.forEach(p => p.classList.toggle('show'));
+                showMoreBtn.innerText = visible ? 'Collapse_Archive' : 'Expand_Archive';
+                ScrollTrigger.refresh();
+            });
+
+            // Typing Effect
+            new Typed('#typing-text', {
+                strings: ['Software Engineer', 'CEO of Relic Software', 'Full-Stack Developer', 'Tech Alchemist'],
+                typeSpeed: 60,
+                backSpeed: 40,
+                backDelay: 2500,
+                loop: true
+            });
+
+            // GSAP Animations
+            gsap.registerPlugin(ScrollTrigger);
+
+            // Initial Hero Entry
+            gsap.to('.hero-text > *', {
+                opacity: 1,
+                y: 0,
+                duration: 1,
+                stagger: 0.15,
+                ease: 'power4.out',
+                delay: 0.3
+            });
+
+            // Reveal Animation Logic Fixed
+            const reveals = [
+                { selector: '.reveal-up', y: 40, x: 0 },
+                { selector: '.reveal-left', x: -40, y: 0 },
+                { selector: '.reveal-right', x: 40, y: 0 },
+                { selector: '.skill-item', y: 30, x: 0 }
+            ];
+
+            reveals.forEach(r => {
+                document.querySelectorAll(r.selector).forEach(el => {
+                    // Set initial state via GSAP to avoid conflict with CSS
+                    gsap.set(el, { 
+                        opacity: 0, 
+                        x: r.x, 
+                        y: r.y 
+                    });
+
+                    // Animate to visible state
+                    gsap.to(el, {
+                        scrollTrigger: {
+                            trigger: el,
+                            start: 'top 92%',
+                            toggleActions: 'play none none none'
+                        },
+                        opacity: 1,
+                        x: 0,
+                        y: 0,
+                        duration: 1.2,
+                        ease: 'power3.out'
+                    });
+                });
+            });
+
+            // Three.js Dynamic Background
+            const initThreeBG = () => {
+                const canvas = document.querySelector('#bg-canvas');
+                const scene = new THREE.Scene();
+                const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+                const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
+
+                renderer.setSize(window.innerWidth, window.innerHeight);
+                renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+                const particlesGeometry = new THREE.BufferGeometry();
+                const count = 2500;
+                const posArray = new Float32Array(count * 3);
+                const colorArray = new Float32Array(count * 3);
+
+                const teal = new THREE.Color(0x14b8a6);
+                const orange = new THREE.Color(0xf97316);
+
+                for(let i = 0; i < count; i++) {
+                    posArray[i * 3] = (Math.random() - 0.5) * 12;
+                    posArray[i * 3 + 1] = (Math.random() - 0.5) * 12;
+                    posArray[i * 3 + 2] = (Math.random() - 0.5) * 12;
+
+                    const mixColor = Math.random() > 0.7 ? orange : teal;
+                    colorArray[i * 3] = mixColor.r;
+                    colorArray[i * 3 + 1] = mixColor.g;
+                    colorArray[i * 3 + 2] = mixColor.b;
+                }
+
+                particlesGeometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
+                particlesGeometry.setAttribute('color', new THREE.BufferAttribute(colorArray, 3));
+
+                const material = new THREE.PointsMaterial({
+                    size: 0.006,
+                    vertexColors: true,
+                    transparent: true,
+                    opacity: 0.3,
+                    blending: THREE.AdditiveBlending
+                });
+
+                const particlesMesh = new THREE.Points(particlesGeometry, material);
+                scene.add(particlesMesh);
+
+                camera.position.z = 4;
+
+                let mouseX = 0, mouseY = 0;
+                document.addEventListener('mousemove', (e) => {
+                    mouseX = (e.clientX / window.innerWidth - 0.5);
+                    mouseY = (e.clientY / window.innerHeight - 0.5);
+                });
+
+                const animate = () => {
+                    requestAnimationFrame(animate);
+                    particlesMesh.rotation.y += 0.0004;
+                    particlesMesh.position.x += (mouseX * 0.1 - particlesMesh.position.x) * 0.05;
+                    particlesMesh.position.y += (-mouseY * 0.1 - particlesMesh.position.y) * 0.05;
+                    renderer.render(scene, camera);
+                };
+
+                animate();
+
+                window.addEventListener('resize', () => {
+                    camera.aspect = window.innerWidth / window.innerHeight;
+                    camera.updateProjectionMatrix();
+                    renderer.setSize(window.innerWidth, window.innerHeight);
+                });
+            };
+
+            // Hero 3D Object
+            const initHeroScene = () => {
+                const canvas = document.querySelector('#hero-canvas');
+                const scene = new THREE.Scene();
+                const camera = new THREE.PerspectiveCamera(75, 1, 0.1, 100);
+                const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
+
+                const rect = canvas.parentNode.getBoundingClientRect();
+                const size = Math.min(rect.width, 450);
+                renderer.setSize(size, size);
+
+                const geometry = new THREE.OctahedronGeometry(2, 2);
+                const wireframe = new THREE.WireframeGeometry(geometry);
+                const material = new THREE.LineBasicMaterial({ 
+                    color: 0x14b8a6, 
+                    transparent: true, 
+                    opacity: 0.25 
+                });
+                const shell = new THREE.LineSegments(wireframe, material);
+                scene.add(shell);
+
+                const coreGeo = new THREE.SphereGeometry(1, 12, 12);
+                const coreMat = new THREE.MeshBasicMaterial({ 
+                    color: 0xf97316,
+                    wireframe: true,
+                    transparent: true,
+                    opacity: 0.6
+                });
+                const core = new THREE.Mesh(coreGeo, coreMat);
+                scene.add(core);
+
+                camera.position.z = 5;
+
+                const animate = () => {
+                    requestAnimationFrame(animate);
+                    shell.rotation.y += 0.003;
+                    shell.rotation.z += 0.001;
+                    core.rotation.y -= 0.008;
+                    core.scale.setScalar(1 + Math.sin(Date.now() * 0.0015) * 0.08);
+                    renderer.render(scene, camera);
+                };
+
+                animate();
+
+                window.addEventListener('resize', () => {
+                    const rect = canvas.parentNode.getBoundingClientRect();
+                    const size = Math.min(rect.width, 450);
+                    renderer.setSize(size, size);
+                });
+            };
+
+            initThreeBG();
+            initHeroScene();
+
+            const form = document.getElementById('contact-form');
+            form.onsubmit = (e) => {
+                e.preventDefault();
+                const btn = form.querySelector('button');
+                const originalText = btn.innerText;
+                btn.innerText = "Transmitting Signal...";
+                btn.disabled = true;
+
+                setTimeout(() => {
+                    btn.innerText = "Node Responded";
+                    btn.style.backgroundColor = "#14b8a6";
+                    form.reset();
+                    setTimeout(() => {
+                        btn.innerText = originalText;
+                        btn.style.backgroundColor = "";
+                        btn.disabled = false;
+                    }, 3000);
+                }, 1800);
+            };
+        });
+    </script>
+</body>
+</html>
