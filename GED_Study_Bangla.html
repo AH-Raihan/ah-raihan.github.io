@@ -1,0 +1,798 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GED Exam Study – Bangla</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;600;700&family=Playfair+Display:wght@700&display=swap');
+
+  :root {
+    --bg: #0d1117;
+    --card: #161b22;
+    --border: #30363d;
+    --green: #3fb950;
+    --blue: #58a6ff;
+    --orange: #f0883e;
+    --purple: #bc8cff;
+    --red: #ff7b72;
+    --yellow: #e3b341;
+    --text: #e6edf3;
+    --muted: #8b949e;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Hind Siliguri', sans-serif;
+    min-height: 100vh;
+    padding: 0 0 60px;
+  }
+
+  header {
+    background: linear-gradient(135deg, #0d1117 0%, #161b22 100%);
+    border-bottom: 1px solid var(--border);
+    padding: 20px 16px 16px;
+    text-align: center;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+
+  header h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 22px;
+    color: var(--blue);
+    letter-spacing: 1px;
+  }
+
+  header p { font-size: 13px; color: var(--muted); margin-top: 4px; }
+
+  .progress-bar {
+    height: 3px;
+    background: var(--border);
+    margin-top: 12px;
+    border-radius: 3px;
+    overflow: hidden;
+  }
+
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--blue), var(--purple));
+    transition: width 0.4s ease;
+    width: 0%;
+  }
+
+  .tabs {
+    display: flex;
+    overflow-x: auto;
+    gap: 8px;
+    padding: 14px 12px;
+    scrollbar-width: none;
+  }
+
+  .tabs::-webkit-scrollbar { display: none; }
+
+  .tab {
+    flex-shrink: 0;
+    padding: 7px 14px;
+    border-radius: 20px;
+    border: 1px solid var(--border);
+    background: var(--card);
+    color: var(--muted);
+    cursor: pointer;
+    font-size: 13px;
+    font-family: 'Hind Siliguri', sans-serif;
+    transition: all 0.2s;
+  }
+
+  .tab.active {
+    background: var(--blue);
+    color: #000;
+    border-color: var(--blue);
+    font-weight: 700;
+  }
+
+  .section { display: none; padding: 0 12px; }
+  .section.active { display: block; }
+
+  .topic-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    margin-bottom: 12px;
+    overflow: hidden;
+    transition: border-color 0.2s;
+  }
+
+  .topic-card:hover { border-color: var(--blue); }
+
+  .topic-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 16px;
+    cursor: pointer;
+    user-select: none;
+  }
+
+  .topic-title {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .tag {
+    font-size: 11px;
+    padding: 2px 8px;
+    border-radius: 10px;
+    font-weight: 600;
+  }
+
+  .tag-important { background: rgba(255, 123, 114, 0.15); color: var(--red); }
+  .tag-medium { background: rgba(240, 136, 62, 0.15); color: var(--orange); }
+  .tag-easy { background: rgba(63, 185, 80, 0.15); color: var(--green); }
+
+  .topic-en { font-size: 14px; font-weight: 600; color: var(--text); }
+  .topic-bn { font-size: 13px; color: var(--muted); margin-top: 2px; }
+
+  .chevron { color: var(--muted); transition: transform 0.3s; font-size: 16px; }
+  .topic-card.open .chevron { transform: rotate(180deg); }
+
+  .topic-body {
+    display: none;
+    padding: 0 16px 16px;
+    border-top: 1px solid var(--border);
+  }
+
+  .topic-card.open .topic-body { display: block; }
+
+  .point {
+    display: flex;
+    gap: 10px;
+    padding: 10px 0;
+    border-bottom: 1px solid rgba(48,54,61,0.5);
+    animation: fadeIn 0.3s ease;
+  }
+
+  .point:last-child { border-bottom: none; }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(6px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .point-icon { font-size: 16px; flex-shrink: 0; margin-top: 2px; }
+
+  .point-en {
+    font-size: 13px;
+    color: var(--blue);
+    font-weight: 600;
+    margin-bottom: 4px;
+  }
+
+  .point-bn {
+    font-size: 13px;
+    color: var(--text);
+    line-height: 1.6;
+  }
+
+  .point-example {
+    font-size: 12px;
+    color: var(--muted);
+    margin-top: 4px;
+    font-style: italic;
+  }
+
+  .section-label {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    color: var(--muted);
+    text-transform: uppercase;
+    padding: 12px 4px 6px;
+  }
+
+  /* Quiz */
+  .quiz-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 18px;
+    margin-bottom: 12px;
+  }
+
+  .quiz-q {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 14px;
+    line-height: 1.5;
+  }
+
+  .quiz-q span { color: var(--yellow); font-size: 12px; display: block; margin-bottom: 4px; }
+
+  .quiz-options { display: flex; flex-direction: column; gap: 8px; }
+
+  .quiz-opt {
+    padding: 10px 14px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    background: var(--bg);
+    color: var(--text);
+    font-size: 13px;
+    font-family: 'Hind Siliguri', sans-serif;
+    cursor: pointer;
+    text-align: left;
+    transition: all 0.2s;
+  }
+
+  .quiz-opt:hover { border-color: var(--blue); }
+  .quiz-opt.correct { background: rgba(63,185,80,0.15); border-color: var(--green); color: var(--green); }
+  .quiz-opt.wrong { background: rgba(255,123,114,0.15); border-color: var(--red); color: var(--red); }
+  .quiz-opt:disabled { cursor: default; }
+
+  .quiz-explain {
+    display: none;
+    margin-top: 10px;
+    padding: 10px;
+    background: rgba(88,166,255,0.08);
+    border-radius: 8px;
+    font-size: 13px;
+    color: var(--blue);
+    line-height: 1.6;
+  }
+
+  .quiz-explain.show { display: block; }
+
+  .score-box {
+    background: linear-gradient(135deg, rgba(88,166,255,0.1), rgba(188,140,255,0.1));
+    border: 1px solid var(--blue);
+    border-radius: 12px;
+    padding: 16px;
+    text-align: center;
+    margin-bottom: 16px;
+  }
+
+  .score-box h3 { color: var(--blue); font-size: 16px; }
+  .score-box p { color: var(--muted); font-size: 13px; margin-top: 4px; }
+
+  .compare-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  .compare-table th {
+    background: rgba(88,166,255,0.1);
+    color: var(--blue);
+    padding: 10px;
+    text-align: left;
+    border-bottom: 2px solid var(--blue);
+  }
+  .compare-table td {
+    padding: 9px 10px;
+    border-bottom: 1px solid var(--border);
+    color: var(--text);
+    vertical-align: top;
+  }
+  .compare-table tr:last-child td { border-bottom: none; }
+  .compare-table tr:hover td { background: rgba(48,54,61,0.3); }
+
+  .highlight-box {
+    background: rgba(240,136,62,0.1);
+    border-left: 3px solid var(--orange);
+    padding: 10px 12px;
+    border-radius: 0 8px 8px 0;
+    margin: 8px 0;
+    font-size: 13px;
+    color: var(--text);
+  }
+
+  .highlight-box strong { color: var(--orange); }
+
+  .mnemonic-box {
+    background: rgba(188,140,255,0.1);
+    border-left: 3px solid var(--purple);
+    padding: 10px 12px;
+    border-radius: 0 8px 8px 0;
+    margin: 8px 0;
+    font-size: 13px;
+    color: var(--text);
+  }
+
+  .mnemonic-box strong { color: var(--purple); }
+
+  .checked { opacity: 0.5; text-decoration: line-through; }
+  .done-btn {
+    font-size: 12px;
+    padding: 3px 10px;
+    border-radius: 10px;
+    border: 1px solid var(--green);
+    background: transparent;
+    color: var(--green);
+    cursor: pointer;
+    font-family: 'Hind Siliguri', sans-serif;
+    margin-left: 8px;
+  }
+
+  .done-btn.marked {
+    background: var(--green);
+    color: #000;
+  }
+
+</style>
+</head>
+<body>
+
+<header>
+  <h1>📚 GED Exam Notes</h1>
+  <p>বাংলা ব্যাখ্যাসহ দ্রুত পড়ুন — Quick Revision</p>
+  <div class="progress-bar"><div class="progress-fill" id="prog"></div></div>
+</header>
+
+<div class="tabs">
+  <div class="tab active" onclick="showTab(0)">🌍 Global Problems</div>
+  <div class="tab" onclick="showTab(1)">🌿 Biodiversity</div>
+  <div class="tab" onclick="showTab(2)">🏭 Resources</div>
+  <div class="tab" onclick="showTab(3)">☁️ Pollution</div>
+  <div class="tab" onclick="showTab(4)">📉 Degradation</div>
+  <div class="tab" onclick="showTab(5)">📝 Quiz</div>
+</div>
+
+<!-- TAB 0: GLOBAL PROBLEMS -->
+<div class="section active" id="tab0">
+
+  <div class="section-label">Weather vs Climate</div>
+  <div class="topic-card" onclick="toggle(this)">
+    <div class="topic-header">
+      <div class="topic-title">
+        <div><div class="topic-en">☁️ Weather vs Climate</div><div class="topic-bn">আবহাওয়া বনাম জলবায়ু</div></div>
+      </div>
+      <div><span class="tag tag-important">⚠️ Important</span> <span class="chevron">▼</span></div>
+    </div>
+    <div class="topic-body">
+      <table class="compare-table">
+        <tr><th>Weather (আবহাওয়া)</th><th>Climate (জলবায়ু)</th></tr>
+        <tr><td>স্বল্পমেয়াদী অবস্থা<br><small>Short-term state</small></td><td>দীর্ঘমেয়াদী পরিসংখ্যান<br><small>Long-term statistics</small></td></tr>
+        <tr><td>নির্দিষ্ট স্থান ও সময়<br><small>Specific place & time</small></td><td>একটি অঞ্চলের আবহাওয়ার ধরন<br><small>Pattern of a region</small></td></tr>
+        <tr><td>❌ স্থান-সময় ছাড়া অর্থ নেই</td><td>✅ ৩০+ বছরের ডেটা লাগে</td></tr>
+      </table>
+      <div class="highlight-box"><strong>মনে রাখুন:</strong> "আজকে বৃষ্টি" = Weather | "বাংলাদেশে বর্ষায় বৃষ্টি হয়" = Climate</div>
+    </div>
+  </div>
+
+  <div class="section-label">Causes of Global Warming</div>
+  <div class="topic-card" onclick="toggle(this)">
+    <div class="topic-header">
+      <div class="topic-title">
+        <div><div class="topic-en">🔥 Causes of Global Warming</div><div class="topic-bn">গ্লোবাল ওয়ার্মিং-এর কারণসমূহ</div></div>
+      </div>
+      <div><span class="tag tag-important">⚠️ Important</span> <span class="chevron">▼</span></div>
+    </div>
+    <div class="topic-body">
+      <div class="mnemonic-box"><strong>সংজ্ঞা:</strong> পৃথিবীর পৃষ্ঠের তাপমাত্রার দীর্ঘমেয়াদী ক্রমাগত বৃদ্ধি = Global Warming</div>
+      <div class="point"><span class="point-icon">🏭</span><div><div class="point-en">GHG (Greenhouse Gases): CO₂, N₂O, O₃, CH₄</div><div class="point-bn">এই গ্যাসগুলো ইনফ্রারেড রেডিয়েশন শোষণ করে তাপ বাড়ায়। GHE (Greenhouse Effect) একটি প্রাকৃতিক প্রক্রিয়া — কিন্তু অতিরিক্ত হলে সমস্যা।</div></div></div>
+      <div class="point"><span class="point-icon">🌫️</span><div><div class="point-en">O₃ Depletion</div><div class="point-bn">স্ট্র্যাটোস্ফিয়ারে ওজোন স্তর পাতলা হওয়া। CFC, CCl₄, CH₃Cl — এরা Cl ও Br পরমাণু ছেড়ে ওজোন ধ্বংস করে।</div></div></div>
+      <div class="point"><span class="point-icon">🔥</span><div><div class="point-en">Fossil Fuel Burning</div><div class="point-bn">জীবাশ্ম জ্বালানি পোড়ালে প্রচুর CO₂ নির্গত হয় — সবচেয়ে বড় কারণ।</div></div></div>
+      <div class="point"><span class="point-icon">🌲</span><div><div class="point-en">Deforestation & Land Use Change</div><div class="point-bn">বড় আকারে বন কাটলে CO₂ শোষণ কমে যায়।</div></div></div>
+      <div class="point"><span class="point-icon">🏗️</span><div><div class="point-en">Industrial Processes</div><div class="point-bn">কারখানা থেকে CO₂, CH₄, N₂O, CFC, HF নির্গত হয়।</div></div></div>
+      <div class="point"><span class="point-icon">🏙️</span><div><div class="point-en">Rapid Urbanization</div><div class="point-bn">শহর বিস্তার → তাপ শোষণকারী পৃষ্ঠ বাড়ে → তাপমাত্রা ও GHG বাড়ে।</div></div></div>
+      <div class="point"><span class="point-icon">🗑️</span><div><div class="point-en">Waste Generation</div><div class="point-bn">ল্যান্ডফিলে জৈব বর্জ্য → anaerobic decomposition → মিথেন গ্যাস উৎপন্ন হয়।</div></div></div>
+      <div class="mnemonic-box"><strong>মনে রাখার কৌশল (FIDWUR):</strong> Fossil fuel, Industrial, Deforestation, Waste, Urbanization, Rapid agriculture</div>
+    </div>
+  </div>
+
+  <div class="section-label">Impacts of Global Warming</div>
+  <div class="topic-card" onclick="toggle(this)">
+    <div class="topic-header">
+      <div class="topic-title">
+        <div><div class="topic-en">🌡️ Impacts of Global Warming</div><div class="topic-bn">গ্লোবাল ওয়ার্মিং-এর প্রভাব</div></div>
+      </div>
+      <div><span class="tag tag-important">⚠️ Important</span> <span class="chevron">▼</span></div>
+    </div>
+    <div class="topic-body">
+      <div class="point"><span class="point-icon">🌡️</span><div><div class="point-en">Global Temperature Rise</div><div class="point-bn">GHG বাড়লে তাপমাত্রা বাড়ে — এটাই মূল প্রভাব।</div></div></div>
+      <div class="point"><span class="point-icon">🧊</span><div><div class="point-en">Melting Ice Caps & Glaciers</div><div class="point-bn">সমুদ্রের উচ্চতা বাড়ে, মিষ্টি পানির উৎস কমে।</div></div></div>
+      <div class="point"><span class="point-icon">🌊</span><div><div class="point-en">Sea Level Rise</div><div class="point-bn">তাপীয় প্রসারণ + বরফ গলা → উপকূলীয় এলাকায় বন্যা ও ক্ষয়।</div></div></div>
+      <div class="point"><span class="point-icon">🌀</span><div><div class="point-en">Extreme Weather Events</div><div class="point-bn">ঝড়, ঘূর্ণিঝড়, খরা, ভারী বৃষ্টির মাত্রা ও সংখ্যা বাড়ে।</div></div></div>
+      <div class="point"><span class="point-icon">🐾</span><div><div class="point-en">Loss of Biodiversity</div><div class="point-bn">আবাসস্থল পরিবর্তন → প্রজাতি বিলুপ্তির ঝুঁকি।</div></div></div>
+      <div class="point"><span class="point-icon">🏥</span><div><div class="point-en">Health Impact</div><div class="point-bn">হিটওয়েভ, বায়ু দূষণ, ভেক্টরবাহিত রোগ (মশাবাহিত ইত্যাদি)।</div></div></div>
+      <div class="point"><span class="point-icon">🐠</span><div><div class="point-en">Oceanic Ecological Change</div><div class="point-bn">সমুদ্র উষ্ণ হলে প্রবাল ব্লিচিং → মৎস্য খাত ক্ষতিগ্রস্ত।</div></div></div>
+    </div>
+  </div>
+
+  <div class="section-label">Climate Change Impact in Bangladesh</div>
+  <div class="topic-card" onclick="toggle(this)">
+    <div class="topic-header">
+      <div class="topic-title">
+        <div><div class="topic-en">🇧🇩 Climate Change in BD + Protection Measures</div><div class="topic-bn">বাংলাদেশে প্রভাব ও সুরক্ষা ব্যবস্থা</div></div>
+      </div>
+      <div><span class="tag tag-medium">📌 Medium</span> <span class="chevron">▼</span></div>
+    </div>
+    <div class="topic-body">
+      <div class="highlight-box"><strong>BD-তে প্রভাব:</strong> সমুদ্রের উচ্চতা বৃদ্ধি, বন্যা, লবণাক্ততা, ঘূর্ণিঝড়, খরা, জীববৈচিত্র্য হ্রাস, স্বাস্থ্যঝুঁকি, অর্থনৈতিক ক্ষতি</div>
+      <div class="point"><span class="point-icon">🌳</span><div><div class="point-en">Afforestation & Reforestation</div><div class="point-bn">গাছ লাগানো ও বন পুনরুদ্ধার → CO₂ শোষণ ও GHG কমানো।</div></div></div>
+      <div class="point"><span class="point-icon">🌾</span><div><div class="point-en">Sustainable Agriculture</div><div class="point-bn">জলবায়ু-সহিষ্ণু ফসল, দক্ষ সেচ, মাটি সংরক্ষণ।</div></div></div>
+      <div class="point"><span class="point-icon">⚡</span><div><div class="point-en">Renewable Energy</div><div class="point-bn">সোলার, বায়ু, জলবিদ্যুৎ — জীবাশ্ম জ্বালানির বিকল্প।</div></div></div>
+      <div class="point"><span class="point-icon">🌊</span><div><div class="point-en">Coastal Protection</div><div class="point-bn">বাঁধ, ম্যানগ্রোভ বাগান, জোয়ার-বাধা — বন্যা ও ক্ষয় রোধ।</div></div></div>
+      <div class="point"><span class="point-icon">🤝</span><div><div class="point-en">Policy & International Cooperation</div><div class="point-bn">Paris Accord — বৈশ্বিক জলবায়ু চুক্তি।</div></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- TAB 1: BIODIVERSITY -->
+<div class="section" id="tab1">
+
+  <div class="section-label">Biodiversity Basics</div>
+  <div class="topic-card" onclick="toggle(this)">
+    <div class="topic-header">
+      <div class="topic-title">
+        <div><div class="topic-en">🌿 Biodiversity & Hotspot</div><div class="topic-bn">জীববৈচিত্র্য ও হটস্পট</div></div>
+      </div>
+      <div><span class="tag tag-important">⚠️ Important</span> <span class="chevron">▼</span></div>
+    </div>
+    <div class="topic-body">
+      <div class="point"><span class="point-icon">📖</span><div><div class="point-en">Biodiversity Definition</div><div class="point-bn">পৃথিবীর সকল জীবন-রূপের বিশাল বৈচিত্র্য — যেমন বাস্তুতন্ত্র, প্রজাতি ও জিন। এদের মধ্যে জটিল মিথস্ক্রিয়াও অন্তর্ভুক্ত।</div></div></div>
+      <div class="point"><span class="point-icon">🔥</span><div><div class="point-en">Hotspot</div><div class="point-bn">এমন অঞ্চল যা — (১) Endemic প্রজাতিতে অত্যন্ত সমৃদ্ধ এবং (২) মানব কার্যকলাপে অত্যন্ত হুমকিগ্রস্ত।<br>বাংলাদেশ → Indo-Burma ও Himalayan হটস্পটে পড়ে।</div></div></div>
+      <div class="highlight-box"><strong>Hotspot হতে হলে দুটো শর্ত:</strong><br>① কমপক্ষে ১৫,০০০ endemic vascular plant species<br>② মূল প্রাকৃতিক আবাসস্থলের কমপক্ষে ৭০% হারানো</div>
+    </div>
+  </div>
+
+  <div class="topic-card" onclick="toggle(this)">
+    <div class="topic-header">
+      <div class="topic-title">
+        <div><div class="topic-en">❌ Causes of Biodiversity Loss</div><div class="topic-bn">জীববৈচিত্র্য হ্রাসের কারণ</div></div>
+      </div>
+      <div><span class="tag tag-important">⚠️ Important</span> <span class="chevron">▼</span></div>
+    </div>
+    <div class="topic-body">
+      <table class="compare-table">
+        <tr><th>🌍 Natural (প্রাকৃতিক)</th><th>👤 Anthropogenic (মানবসৃষ্ট)</th></tr>
+        <tr><td>জলবায়ু পরিবর্তন — Great Barrier Reef গরম সমুদ্রে ক্ষতিগ্রস্ত</td><td>Habitat ধ্বংস — Amazon কাটলে অসংখ্য প্রজাতি হুমকিতে</td></tr>
+        <tr><td>আগ্নেয়গিরি — লাভা, ছাই বনভূমি ধ্বংস করে</td><td>অতি-শোষণ — অতিরিক্ত মাছ ধরা → টুনার সংখ্যা কমেছে</td></tr>
+        <tr><td>মহাকাশীয় সংঘর্ষ — ডাইনোসর বিলুপ্তি</td><td>Exotic প্রজাতির প্রবেশ — Lake Victoria-তে Nile Perch দেশীয় মাছ শেষ করে</td></tr>
+        <tr><td>Continental Drift — Gondwana ভাঙ্গা</td><td>পরিবেশ দূষণ</td></tr>
+        <tr><td>খরা/দুর্ভিক্ষ — হাতি, জেব্রা কমে</td><td>গ্লোবাল ওয়ার্মিং — মেরু ভালুক আর্কটিক বরফ হারাচ্ছে</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <div class="topic-card" onclick="toggle(this)">
+    <div class="topic-header">
+      <div class="topic-title">
+        <div><div class="topic-en">🛡️ In-situ vs Ex-situ Conservation</div><div class="topic-bn">সংরক্ষণের ধরন</div></div>
+      </div>
+      <div><span class="tag tag-medium">📌 Medium</span> <span class="chevron">▼</span></div>
+    </div>
+    <div class="topic-body">
+      <table class="compare-table">
+        <tr><th>In-situ (স্বাভাবিক পরিবেশে)</th><th>Ex-situ (কৃত্রিম পরিবেশে)</th></tr>
+        <tr><td>প্রাকৃতিক আবাসে সংরক্ষণ</td><td>প্রাকৃতিক আবাসের বাইরে</td></tr>
+        <tr><td>বাস্তুতন্ত্র ও জনগোষ্ঠী রক্ষা করে</td><td>নিয়ন্ত্রিত পরিবেশে বিলুপ্তপ্রায় প্রজাতি রক্ষা</td></tr>
+        <tr><td>Lawachara National Park, Ratargul Swamp Forest</td><td>Bangladesh National Zoo, BD Forest Research Institute</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <div class="topic-card" onclick="toggle(this)">
+    <div class="topic-header">
+      <div class="topic-title">
+        <div><div class="topic-en">🏛️ IPCC vs IUCN</div><div class="topic-bn">আন্তর্জাতিক সংস্থা</div></div>
+      </div>
+      <div><span class="tag tag-medium">📌 Medium</span> <span class="chevron">▼</span></div>
+    </div>
+    <div class="topic-body">
+      <table class="compare-table">
+        <tr><th>IPCC</th><th>IUCN</th></tr>
+        <tr><td>Intergovernmental Panel on Climate Change</td><td>International Union for Conservation of Nature</td></tr>
+        <tr><td>জলবায়ু পরিবর্তনের মূল্যায়ন করে</td><td>বিপন্ন প্রজাতির Red List প্রকাশ করে</td></tr>
+        <tr><td>Assessment Report, Special Reports প্রকাশ</td><td>Biodiversity সংরক্ষণ ও ecosystem রক্ষা</td></tr>
+        <tr><td>Climate models ও projections তৈরি</td><td>সংরক্ষিত এলাকা প্রতিষ্ঠায় সহায়তা</td></tr>
+        <tr><td>Paris Agreement সমর্থন করে</td><td>সরকারকে পরিবেশ আইনে পরামর্শ দেয়</td></tr>
+      </table>
+      <div class="highlight-box"><strong>Major Agencies:</strong> UNEP (বৈশ্বিক পরিবেশ নীতি), WWF (বন্যপ্রাণী), FAO (কৃষি-বন-মৎস্য), EPA/USA (দূষণ নিয়ন্ত্রণ)</div>
+    </div>
+  </div>
+</div>
+
+<!-- TAB 2: RESOURCES -->
+<div class="section" id="tab2">
+
+  <div class="topic-card" onclick="toggle(this)">
+    <div class="topic-header">
+      <div class="topic-title">
+        <div><div class="topic-en">🌱 Environmental Resources</div><div class="topic-bn">পরিবেশগত সম্পদ</div></div>
+      </div>
+      <div><span class="tag tag-easy">✅ Easy</span> <span class="chevron">▼</span></div>
+    </div>
+    <div class="topic-body">
+      <div class="point"><span class="point-icon">📖</span><div><div class="point-en">Definition</div><div class="point-bn">মৌলিক বাস্তুতান্ত্রিক চলকের মোট যোগফল ও ফলাফল — শক্তি (সৌর, ভূতাপীয়, রাসায়নিক), বস্তু (জৈব-অজৈব), স্থান (স্থলভাগ, জলাশয়), সময় ও বৈচিত্র্য।</div></div></div>
+    </div>
+  </div>
+
+  <div class="topic-card" onclick="toggle(this)">
+    <div class="topic-header">
+      <div class="topic-title">
+        <div><div class="topic-en">📋 Types of Resources</div><div class="topic-bn">সম্পদের প্রকারভেদ</div></div>
+      </div>
+      <div><span class="tag tag-important">⚠️ Important</span> <span class="chevron">▼</span></div>
+    </div>
+    <div class="topic-body">
+      <table class="compare-table">
+        <tr><th>ধরন</th><th>উদাহরণ</th><th>ব্যাখ্যা</th></tr>
+        <tr><td>Biotic (জৈব)</td><td>বন্য, গৃহপালিত প্রাণী</td><td>জীবিত প্রাণী থেকে প্রাপ্ত</td></tr>
+        <tr><td>Abiotic (অজৈব)</td><td>ভূমি, পানি, বায়ু</td><td>অজীব প্রাকৃতিক সম্পদ</td></tr>
+        <tr><td>Exhaustible (নিঃশেষযোগ্য)</td><td>জীবাশ্ম জ্বালানি, খনিজ</td><td>সীমিত, ব্যবহারে শেষ হয়</td></tr>
+        <tr><td>Inexhaustible (অফুরন্ত)</td><td>পানি, বায়ু</td><td>মানব কার্যক্রমে শেষ হয় না</td></tr>
+        <tr><td>Potential (সম্ভাব্য)</td><td>পানি, বায়ু, সূর্যালোক</td><td>বিদ্যমান কিন্তু পূর্ণ ব্যবহার হয়নি</td></tr>
+        <tr><td>Developed (উন্নীত)</td><td>জলবিদ্যুৎ, সোলার</td><td>জরিপকৃত ও বর্তমানে ব্যবহৃত</td></tr>
+        <tr><td>Mineral (খনিজ)</td><td>লোহা, তামা</td><td>প্রাকৃতিক অজৈব পদার্থ</td></tr>
+        <tr><td>Industrial (শিল্প)</td><td>কৃষি ও পশু পণ্য</td><td>উৎপাদনে ব্যবহৃত</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <div class="topic-card" onclick="toggle(this)">
+    <div class="topic-header">
+      <div class="topic-title">
+        <div><div class="topic-en">📊 EIA — Environmental Impact Assessment</div><div class="topic-bn">পরিবেশগত প্রভাব মূল্যায়ন</div></div>
+      </div>
+      <div><span class="tag tag-important">⚠️ Important</span> <span class="chevron">▼</span></div>
+    </div>
+    <div class="topic-body">
+      <div class="highlight-box"><strong>সংজ্ঞা:</strong> প্রাকৃতিক সম্পদ শোষণ ও প্রক্রিয়াকরণের সময় মানব কার্যকলাপের পরিবেশগত প্রভাবের মূল্যায়ন।</div>
+      <div class="mnemonic-box"><strong>ধাপ মনে রাখুন (SSP-BII-EMRDM):</strong> Study → Predict → Decide → Monitor</div>
+      <div class="point"><span class="point-icon">①</span><div><div class="point-en">Screening</div><div class="point-bn">প্রকল্পের আকার ও সম্ভাব্য প্রভাব দেখে EIA দরকার কিনা নির্ধারণ।</div></div></div>
+      <div class="point"><span class="point-icon">②</span><div><div class="point-en">Scoping</div><div class="point-bn">মূল বিষয়গুলো চিহ্নিত করা ও সীমা নির্ধারণ।</div></div></div>
+      <div class="point"><span class="point-icon">③</span><div><div class="point-en">Project Description</div><div class="point-bn">প্রকল্পের সম্পূর্ণ বিবরণ — অবস্থান, ডিজাইন।</div></div></div>
+      <div class="point"><span class="point-icon">④</span><div><div class="point-en">Baseline Study</div><div class="point-bn">বর্তমান পরিবেশগত অবস্থার তথ্য সংগ্রহ (বায়ু, পানি, মাটি)।</div></div></div>
+      <div class="point"><span class="point-icon">⑤</span><div><div class="point-en">Impact Identification</div><div class="point-bn">প্রকল্প কী কী সমস্যা তৈরি করতে পারে তা খুঁজে বের করা।</div></div></div>
+      <div class="point"><span class="point-icon">⑥</span><div><div class="point-en">Impact Prediction</div><div class="point-bn">প্রভাব কতটা গুরুতর হবে তা অনুমান (স্বল্প/দীর্ঘমেয়াদী)।</div></div></div>
+      <div class="point"><span class="point-icon">⑦</span><div><div class="point-en">Impact Evaluation</div><div class="point-bn">প্রভাব গ্রহণযোগ্য কিনা বিচার।</div></div></div>
+      <div class="point"><span class="point-icon">⑧</span><div><div class="point-en">Mitigation Measures</div><div class="point-bn">প্রভাব কমানো, এড়ানো বা পরিচালনার উপায় সুপারিশ।</div></div></div>
+      <div class="point"><span class="point-icon">⑨</span><div><div class="point-en">EIA Report</div><div class="point-bn">সব তথ্য একটি আনুষ্ঠানিক নথিতে সংকলন।</div></div></div>
+      <div class="point"><span class="point-icon">⑩</span><div><div class="point-en">Decision Making</div><div class="point-bn">কর্তৃপক্ষ রিপোর্ট পর্যালোচনা করে অনুমোদন/বাতিল।</div></div></div>
+      <div class="point"><span class="point-icon">⑪</span><div><div class="point-en">Monitoring</div><div class="point-bn">প্রকল্পের সময় ও পরে পরিবেশগত প্রভাব পর্যবেক্ষণ।</div></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- TAB 3: POLLUTION -->
+<div class="section" id="tab3">
+
+  <div class="topic-card" onclick="toggle(this)">
+    <div class="topic-header">
+      <div class="topic-title">
+        <div><div class="topic-en">🏭 Pollution & Pollutant</div><div class="topic-bn">দূষণ ও দূষক</div></div>
+      </div>
+      <div><span class="tag tag-important">⚠️ Important</span> <span class="chevron">▼</span></div>
+    </div>
+    <div class="topic-body">
+      <div class="point"><span class="point-icon">📖</span><div><div class="point-en">Pollution</div><div class="point-bn">মানব কার্যকলাপের ফলে পরিবেশের অনুকূল পরিবর্তন — শক্তি প্যাটার্ন, বিকিরণ মাত্রা, রাসায়নিক/ভৌত গঠন এবং জীবের প্রাচুর্যে পরিবর্তনের মাধ্যমে।</div></div></div>
+      <div class="point"><span class="point-icon">☢️</span><div><div class="point-en">Pollutant</div><div class="point-bn">শক্তি/কার্য/পদার্থের এমন রূপ যা যেকোনো বিদ্যমান প্রাকৃতিক বাস্তুতন্ত্রকে ভারসাম্যহীন করে।</div></div></div>
+      <div class="highlight-box"><strong>বায়ুর উপাদান:</strong> N₂ (78.09%) | O₂ (20.95%) | Ar (0.93%) | CO₂ (0.03%) + Neon, Krypton, Helium, H₂, Xenon, Ozone</div>
+    </div>
+  </div>
+
+  <div class="topic-card" onclick="toggle(this)">
+    <div class="topic-header">
+      <div class="topic-title">
+        <div><div class="topic-en">💨 Adverse Effects of Air Pollution</div><div class="point-bn">বায়ু দূষণের ক্ষতিকর প্রভাব</div></div>
+      </div>
+      <div><span class="tag tag-important">⚠️ Important</span> <span class="chevron">▼</span></div>
+    </div>
+    <div class="topic-body">
+      <div class="point"><span class="point-icon">☁️</span><div><div class="point-en">Ozone Layer Depletion</div><div class="point-bn">CFC (ফ্রিজ/AC থেকে), CCl₄, Methyl Chloroform → Cl ও Br পরমাণু স্ট্র্যাটোস্ফিয়ারে পৌঁছে ওজোন ধ্বংস করে → আন্টার্কটিকায় মৌসুমী ওজোন ছিদ্র।</div></div></div>
+      <div class="point"><span class="point-icon">🌧️</span><div><div class="point-en">CO₂ Increase & Acid Rain</div><div class="point-bn">CO₂ বাড়লে GHG → Global Warming। Acid Rain → বন, ফসলের ক্ষতি।</div></div></div>
+      <div class="point"><span class="point-icon">🏥</span><div><div class="point-en">Health Hazards</div><div class="point-bn">শ্বাসরোধ, ক্যান্সার, শ্বসনতন্ত্র ক্ষতি, মাড়ি প্রদাহ, অভ্যন্তরীণ রক্তক্ষরণ, অক্সিজেন ঘাটতি, নিউমোনিয়া, ফুসফুসের ক্যান্সার, অ্যাজমা, ব্রঙ্কাইটিস।</div></div></div>
+      <div class="point"><span class="point-icon">🌿</span><div><div class="point-en">Plant/Biotic Community Risks</div><div class="point-bn">Hydrogen Fluoride → পাতায় necrosis ও বিবর্ণতা। সালোকসংশ্লেষণ কমে → ফসল উৎপাদন কমে।</div></div></div>
+      <div class="point"><span class="point-icon">🐟</span><div><div class="point-en">Effects on Animals</div><div class="point-bn">বিষাক্ত দূষক খাদ্যশৃঙ্খলে প্রবেশ → স্বাস্থ্যঝুঁকি। জলজ প্রাণী বৃষ্টির অম্লকরণে ক্ষতিগ্রস্ত।</div></div></div>
+    </div>
+  </div>
+
+  <div class="topic-card" onclick="toggle(this)">
+    <div class="topic-header">
+      <div class="topic-title">
+        <div><div class="topic-en">💧 Water Pollution Effects</div><div class="topic-bn">পানি দূষণের প্রভাব</div></div>
+      </div>
+      <div><span class="tag tag-medium">📌 Medium</span> <span class="chevron">▼</span></div>
+    </div>
+    <div class="topic-body">
+      <div class="point"><span class="point-icon">👤</span><div><div class="point-en">Human Health</div><div class="point-bn">পানিবাহিত রোগ — কলেরা, টাইফয়েড, আমাশয়। সীসা/পারদ/আর্সেনিক → অঙ্গ ক্ষতি, কিডনি বিকল।</div></div></div>
+      <div class="point"><span class="point-icon">🐠</span><div><div class="point-en">Aquatic Life</div><div class="point-bn">দ্রবীভূত অক্সিজেন কমে → মাছ মরে (Hypoxia)। তেল দূষণ → ফুলকা, পালক ও প্রজনন ক্ষতি।</div></div></div>
+      <div class="point"><span class="point-icon">🌱</span><div><div class="point-en">Eutrophication</div><div class="point-bn">অতিরিক্ত নাইট্রেট/ফসফেট → শৈবাল স্ফীতি → সূর্যালোক ও অক্সিজেন কমে → জলজ উদ্ভিদ মরে।</div></div></div>
+      <div class="point"><span class="point-icon">🌍</span><div><div class="point-en">Ecosystem & Soil</div><div class="point-bn">খাদ্যশৃঙ্খল ব্যাহত → জীববৈচিত্র্য হ্রাস। দূষিত সেচ পানি → মাটির উর্বরতা ও ফসলের মান কমে।</div></div></div>
+      <div class="highlight-box"><strong>BOD (Biochemical Oxygen Demand):</strong> বিশুদ্ধ পানি &lt;1 ppm | দূষিত পানি &gt;5 ppm</div>
+    </div>
+  </div>
+</div>
+
+<!-- TAB 4: DEGRADATION -->
+<div class="section" id="tab4">
+
+  <div class="topic-card" onclick="toggle(this)">
+    <div class="topic-header">
+      <div class="topic-title">
+        <div><div class="topic-en">📉 Environmental Degradation</div><div class="topic-bn">পরিবেশগত অবক্ষয়</div></div>
+      </div>
+      <div><span class="tag tag-important">⚠️ Important</span> <span class="chevron">▼</span></div>
+    </div>
+    <div class="topic-body">
+      <div class="highlight-box"><strong>সংজ্ঞা:</strong> পরিবেশের ভৌত উপাদানের অবনতি, মূলত মানব কার্যকলাপের কারণে, এমন পর্যায়ে যে পরিবেশের নিজস্ব স্ব-নিয়ন্ত্রণ বা homeostatic প্রক্রিয়া দিয়ে সংশোধন সম্ভব হয় না।</div>
+      <div class="point"><span class="point-icon">🗂️</span><div><div class="point-en">Types of Pollution (chart)</div><div class="point-bn"><b>Physical:</b> ভূমি দূষণ (মরুকরণ, লবণাক্ততা), পানি দূষণ (সমুদ্র, ভূগর্ভ, নদী), বায়ু দূষণ (ওজোন ক্ষয়, তাপ বৃদ্ধি)<br><b>Social:</b> জনসংখ্যা বিস্ফোরণ, সামাজিক অনগ্রসরতা, অর্থনৈতিক দারিদ্র্য</div></div></div>
+    </div>
+  </div>
+
+  <div class="topic-card" onclick="toggle(this)">
+    <div class="topic-header">
+      <div class="topic-title">
+        <div><div class="topic-en">⚙️ Causes of Env. Degradation</div><div class="topic-bn">পরিবেশগত অবক্ষয়ের কারণ</div></div>
+      </div>
+      <div><span class="tag tag-medium">📌 Medium</span> <span class="chevron">▼</span></div>
+    </div>
+    <div class="topic-body">
+      <div class="mnemonic-box"><strong>মনে রাখুন (HTEUSA-LEPIAO):</strong> Human growth, Tech development, Expanding industry, Urbanization, Sprawling agriculture, Unfriendly behavior + Lack of protection, Economic poverty, Affluence, Illogical exploitation, Overuse</div>
+      <div class="point"><span class="point-icon">👥</span><div><div class="point-en">Human population growth</div><div class="point-bn">জনসংখ্যা বৃদ্ধি → সম্পদের চাহিদা বাড়ে।</div></div></div>
+      <div class="point"><span class="point-icon">🔧</span><div><div class="point-en">Technological Development</div><div class="point-bn">প্রযুক্তি উন্নতি → শিল্প বিস্তার → দূষণ।</div></div></div>
+      <div class="point"><span class="point-icon">🏭</span><div><div class="point-en">Expanding Industries</div><div class="point-bn">শিল্প বিস্তার → বায়ু ও পানি দূষণ।</div></div></div>
+      <div class="point"><span class="point-icon">🙏</span><div><div class="point-en">Philosophical & Religious Outlook</div><div class="point-bn">পরিবেশকে সম্পদ ভাবার মানসিকতা।</div></div></div>
+    </div>
+  </div>
+
+  <div class="topic-card" onclick="toggle(this)">
+    <div class="topic-header">
+      <div class="topic-title">
+        <div><div class="topic-en">🌳 Factors of Degradation</div><div class="topic-bn">অবক্ষয়ের নির্দিষ্ট কারণসমূহ</div></div>
+      </div>
+      <div><span class="tag tag-medium">📌 Medium</span> <span class="chevron">▼</span></div>
+    </div>
+    <div class="topic-body">
+      <div class="point"><span class="point-icon">🌾</span><div><div class="point-en">Shifting Cultivation</div><div class="point-bn">বন কেটে চাষ → পরিত্যক্ত। দ্রুত বন উজাড়, উর্বরতা হ্রাস, কার্বন নির্গমন।</div></div></div>
+      <div class="point"><span class="point-icon">🐄</span><div><div class="point-en">Overgrazing</div><div class="point-bn">ভূমির ধারণক্ষমতার বাইরে চারণ → মাটি ক্ষয়, মরুকরণ, উদ্ভিদ আচ্ছাদন হ্রাস।</div></div></div>
+      <div class="point"><span class="point-icon">🔥</span><div><div class="point-en">Forest Fires</div><div class="point-bn">অনিয়ন্ত্রিত দাবানল → উদ্ভিদ ও বন্যপ্রাণী ধ্বংস, GHG নির্গমন।</div></div></div>
+      <div class="point"><span class="point-icon">🪓</span><div><div class="point-en">Lumbering</div><div class="point-bn">বাণিজ্যিক গাছ কাটা → আবাসস্থল হ্রাস, CO₂ বৃদ্ধি, মাটি ক্ষয়।</div></div></div>
+      <div class="point"><span class="point-icon">🏗️</span><div><div class="point-en">Multipurpose River Projects</div><div class="point-bn">বাঁধ নির্মাণ → বন ও ভূমি ডুবে যায়।</div></div></div>
+    </div>
+  </div>
+
+  <div class="topic-card" onclick="toggle(this)">
+    <div class="topic-header">
+      <div class="topic-title">
+        <div><div class="topic-en">✅ Control Measures</div><div class="topic-bn">নিয়ন্ত্রণ ব্যবস্থা</div></div>
+      </div>
+      <div><span class="tag tag-easy">✅ Easy</span> <span class="chevron">▼</span></div>
+    </div>
+    <div class="topic-body">
+      <div class="point"><span class="point-icon">🌱</span><div><div class="point-en">Eco-friendly Technologies</div><div class="point-bn">পরিবেশবান্ধব প্রযুক্তি ব্যবহার।</div></div></div>
+      <div class="point"><span class="point-icon">🌳</span><div><div class="point-en">Afforestation & Reforestation</div><div class="point-bn">নতুন বন তৈরি ও পুরনো বন পুনরুদ্ধার।</div></div></div>
+      <div class="point"><span class="point-icon">🚫</span><div><div class="point-en">Limit CFC, CCl₄, CH₄ production</div><div class="point-bn">ওজোন স্তর ক্ষতিকর গ্যাসের উৎপাদন সীমিত।</div></div></div>
+      <div class="point"><span class="point-icon">📚</span><div><div class="point-en">Educate people</div><div class="point-bn">পরিবেশ সমস্যা সম্পর্কে সচেতনতা বৃদ্ধি।</div></div></div>
+      <div class="point"><span class="point-icon">🗺️</span><div><div class="point-en">Sustainable land use planning</div><div class="point-bn">ভূমির ধারণক্ষমতা অনুযায়ী ব্যবহার।</div></div></div>
+      <div class="point"><span class="point-icon">🌲</span><div><div class="point-en">Forest conservation & Fire management</div><div class="point-bn">বন সংরক্ষণ ও দাবানল নিয়ন্ত্রণ।</div></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- TAB 5: QUIZ -->
+<div class="section" id="tab5">
+  <div class="score-box">
+    <h3>📝 Quick Quiz</h3>
+    <p>নিজেকে পরীক্ষা করুন — উত্তর দিলে ব্যাখ্যা দেখা যাবে</p>
+  </div>
+
+  <div id="quiz-container"></div>
+</div>
+
+<script>
+const quizData = [
+  {
+    q: "Weather ও Climate-এর মধ্যে পার্থক্য কী?",
+    en: "What is the key difference between Weather and Climate?",
+    options: ["Weather = দীর্ঘমেয়াদী, Climate = স্বল্পমেয়াদী", "Weather = স্বল্পমেয়াদী নির্দিষ্ট অবস্থা, Climate = ৩০+ বছরের গড় ধরন", "উভয়ই একই জিনিস", "Weather শুধু বৃষ্টির ক্ষেত্রে প্রযোজ্য"],
+    ans: 1,
+    explain: "Weather হলো নির্দিষ্ট স্থান ও সময়ে বায়ুমণ্ডলের স্বল্পমেয়াদী অবস্থা। Climate হলো ৩০ বা তার বেশি বছরের আবহাওয়ার দীর্ঘমেয়াদী পরিসংখ্যানগত বিবরণ।"
+  },
+  {
+    q: "GHE (Greenhouse Effect) কোন গ্যাসগুলোর কারণে হয়?",
+    en: "Which gases cause the Greenhouse Effect?",
+    options: ["O₂, N₂, Ar", "CO₂, N₂O, O₃, CH₄", "শুধু CO₂", "শুধু O₃"],
+    ans: 1,
+    explain: "CO₂, N₂O, O₃ এবং CH₄ — এই গ্যাসগুলো ইনফ্রারেড রেডিয়েশন শোষণ করে তাপমাত্রা বৃদ্ধিতে অবদান রাখে।"
+  },
+  {
+    q: "Biodiversity Hotspot হতে হলে কতটি endemic vascular plant species থাকতে হবে?",
+    en: "Minimum endemic vascular plant species for a Biodiversity Hotspot?",
+    options: ["৫,০০০", "১০,০০০", "১৫,০০০", "২০,০০০"],
+    ans: 2,
+    explain: "Hotspot হতে হলে কমপক্ষে ১৫,০০০ endemic vascular plant species থাকতে হবে এবং মূল আবাসস্থলের ৭০% হারাতে হবে।"
+  },
+  {
+    q: "In-situ conservation-এর উদাহরণ কোনটি?",
+    en: "Which is an example of In-situ conservation?",
+    options: ["Bangladesh National Zoo", "Ratargul Swamp Forest", "BD Forest Research Institute", "Aquarium"],
+    ans: 1,
+    explain: "In-situ মানে প্রাকৃতিক আবাসে সংরক্ষণ। Ratargul Swamp Forest ও Lawachara National Park এর উদাহরণ। Zoo = Ex-situ।"
+  },
+  {
+    q: "Eutrophication কী কারণে হয়?",
+    en: "What causes Eutrophication?",
+    options: ["তেল দূষণ", "অতিরিক্ত নাইট্রেট/ফসফেট", "CO₂ বৃদ্ধি", "শব্দ দূষণ"],
+    ans: 1,
+    explain: "অতিরিক্ত নাইট্রেট/ফসফেট → শৈবাল স্ফীতি (algal bloom) → সূর্যালোক ও অক্সিজেন কমে → জলজ উদ্ভিদ মারা যায়।"
+  },
+  {
+    q: "IPCC-এর পূর্ণ নাম কী?",
+    en: "What does IPCC stand for?",
+    options: ["International Panel for Climate Conservation", "Intergovernmental Panel on Climate Change", "International Programme for Climate Control", "Intergovernmental Programme on Carbon Control"],
+    ans: 1,
+    explain: "IPCC = Intergovernmental Panel on Climate Change। এটি জলবায়ু পরিবর্তনের বৈজ্ঞানিক মূল্যায়ন, প্রভাব ও ভবিষ্যৎ ঝুঁকি নিয়ে Assessment Report প্রকাশ করে।"
+  },
+  {
+    q: "EIA-র কোন ধাপে প্রকল্পের বর্তমান পরিবেশগত তথ্য সংগ্রহ করা হয়?",
+    en: "In which EIA step is current environmental data collected?",
+    options: ["Screening", "Scoping", "Baseline Study", "Impact Evaluation"],
+    ans: 2,
+    explain: "Baseline Study ধাপে বায়ু, পানি, মাটির বর্তমান পরিবেশগত অবস্থার তথ্য সংগ্রহ করা হয়।"
+  },
+  {
+    q: "BOD-এর ক্ষেত্রে দূষিত পানির মান কত?",
+    en: "What is the BOD level of polluted water?",
+    options: ["< 1 ppm", "> 5 ppm", "= 3 ppm", "< 0.5 ppm"],
+    ans: 1,
+    explain: "বিশুদ্ধ পানির BOD < 1 ppm। দূষিত পানির BOD > 5 ppm। BOD বেশি মানে পানিতে বেশি জৈব দূষক আছে।"
+  }
+];
+
+function buildQuiz() {
+  const container = document.getElementById('quiz-container');
+  quizData.forEach((q, i) => {
+    const card = document.createElement('div');
+    card.className = 'quiz-card';
+    card.innerHTML = `
+      <div class="quiz-q"><span>প্রশ্ন ${i+1}</span>${q.q}</div>
+      <div class="quiz-options">
+        ${q.options.map((opt, j) => `<button class="quiz-opt" onclick="answer(this,${i},${j})">${opt}</button>`).join('')}
+      </div>
+      <div class="quiz-explain" id="explain-${i}">💡 ${q.explain}</div>
+    `;
+    container.appendChild(card);
+  });
+}
+
+let answered = new Array(quizData.length).fill(false);
+
+function answer(btn, qi, optIdx) {
+  if (answered[qi]) return;
+  answered[qi] = true;
+  const opts = btn.parentElement.querySelectorAll('.quiz-opt');
+  opts.forEach((o, j) => {
+    o.disabled = true;
+    if (j === quizData[qi].ans) o.classList.add('correct');
+    else if (j === optIdx) o.classList.add('wrong');
+  });
+  document.getElementById('explain-' + qi).classList.add('show');
+  updateProgress();
+}
+
+function updateProgress() {
+  const done = answered.filter(Boolean).length;
+  const total = quizData.length;
+  document.getElementById('prog').style.width = ((done / total) * 100) + '%';
+}
+
+const tabs = document.querySelectorAll('.tab');
+const sections = document.querySelectorAll('.section');
+
+function showTab(i) {
+  tabs.forEach(t => t.classList.remove('active'));
+  sections.forEach(s => s.classList.remove('active'));
+  tabs[i].classList.add('active');
+  sections[i].classList.add('active');
+}
+
+function toggle(card) {
+  card.classList.toggle('open');
+}
+
+buildQuiz();
+</script>
+</body>
+</html>
