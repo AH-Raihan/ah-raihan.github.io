@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Data Structure Note</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap');
+
+  :root {
+    --bg: #0d1117;
+    --card: #161b22;
+    --border: #30363d;
+    --blue: #58a6ff;
+    --green: #3fb950;
+    --orange: #f0883e;
+    --purple: #bc8cff;
+    --red: #ff7b72;
+    --text: #e6edf3;
+    --muted: #8b949e;
+    --header-bg: #161b22;
+    --label-bg: #21262d;
+  }
+
+  body.theme-warm {
+    --bg: #f4ecd8;
+    --card: #fff9eb;
+    --border: #e0d6b8;
+    --blue: #2b6cb0;
+    --green: #2f855a;
+    --orange: #c05621;
+    --purple: #6b46c1;
+    --red: #c53030;
+    --text: #4a3728;
+    --muted: #7d6e5d;
+    --header-bg: #e8dfc4;
+    --label-bg: #efead6;
+  }
+
+  body.theme-light {
+    --bg: #f6f8fa;
+    --card: #ffffff;
+    --border: #d0d7de;
+    --blue: #0969da;
+    --green: #1a7f37;
+    --orange: #bc4c00;
+    --purple: #8250df;
+    --red: #cf222e;
+    --text: #1f2328;
+    --muted: #656d76;
+    --header-bg: #ffffff;
+    --label-bg: #f3f4f6;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Inter', 'Hind Siliguri', sans-serif;
+    line-height: 1.6;
+    transition: background 0.3s, color 0.3s;
+    overflow-x: hidden;
+  }
+
+  .fixed-nav-top {
+    position: sticky;
+    top: 0;
+    z-index: 1100;
+    background: var(--header-bg);
+    border-bottom: 1px solid var(--border);
+  }
+
+  header {
+    padding: 12px 15px;
+    max-width: 900px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  h1 { font-size: 1rem; color: var(--blue); font-weight: 700; }
+
+  .controls { display: flex; gap: 8px; align-items: center; }
+
+  .btn-pill {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    color: var(--muted);
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: 0.2s;
+  }
+
+  .btn-pill.active {
+    background: var(--blue);
+    color: #fff;
+    border-color: var(--blue);
+  }
+
+  .tabs-wrapper {
+    background: var(--bg);
+    border-bottom: 1px solid var(--border);
+    overflow-x: auto;
+    scrollbar-width: none;
+    padding: 8px 10px;
+  }
+  .tabs-wrapper::-webkit-scrollbar { display: none; }
+
+  .tabs {
+    display: flex;
+    gap: 8px;
+    width: max-content;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  .tab {
+    padding: 6px 14px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    color: var(--muted);
+    font-size: 12px;
+    cursor: pointer;
+    white-space: nowrap;
+    font-weight: 600;
+  }
+
+  .tab.active {
+    border-color: var(--blue);
+    color: var(--blue);
+    background: rgba(88, 166, 255, 0.1);
+  }
+
+  main { padding: 15px 15px 100px; max-width: 900px; margin: 0 auto; min-height: 70vh; }
+
+  .card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    margin-bottom: 12px;
+    overflow: hidden;
+  }
+
+  .card-header {
+    padding: 14px 16px;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .card-header h3 { font-size: 14px; color: var(--blue); }
+  
+  .card-body {
+    padding: 0 16px 16px;
+    display: none;
+    border-top: 1px solid var(--border);
+    padding-top: 16px;
+  }
+
+  .card.open .card-body { display: block; }
+  .card.open .chevron { transform: rotate(180deg); }
+  .chevron { transition: 0.3s; color: var(--muted); font-size: 10px; }
+
+  /* Dual Content Blocks */
+  .content-section { margin-bottom: 15px; }
+  .section-label {
+    display: inline-block;
+    font-size: 10px;
+    font-weight: 800;
+    padding: 2px 8px;
+    border-radius: 4px;
+    margin-bottom: 6px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  .label-explanation { background: rgba(188, 140, 255, 0.15); color: var(--purple); border: 1px solid rgba(188, 140, 255, 0.3); }
+  .label-definition { background: rgba(63, 185, 80, 0.15); color: var(--green); border: 1px solid rgba(63, 185, 80, 0.3); }
+
+  .text-box {
+    padding: 12px;
+    background: var(--bg);
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    font-size: 14px;
+  }
+  .explanation-text { border-left: 3px solid var(--purple); }
+  .definition-text { border-left: 3px solid var(--green); font-style: italic; }
+
+  .quiz-card { background: var(--card); padding: 20px; border-radius: 12px; border: 1px solid var(--border); margin-bottom: 15px; }
+  .quiz-opt { display: block; width: 100%; text-align: left; padding: 12px; margin-top: 10px; background: var(--bg); border: 1px solid var(--border); border-radius: 8px; color: var(--text); cursor: pointer; transition: 0.2s; font-size: 14px; }
+  .quiz-opt.correct { background: rgba(63, 185, 80, 0.2); border-color: var(--green); color: var(--green); }
+  .quiz-opt.wrong { background: rgba(255, 123, 114, 0.2); border-color: var(--red); color: var(--red); }
+  .quiz-exp { display: none; margin-top: 12px; padding: 12px; background: rgba(88, 166, 255, 0.1); border-radius: 8px; border-left: 3px solid var(--blue); font-size: 13px; }
+  .quiz-exp.show { display: block; }
+
+  .strategy-badge { background: var(--red); color: white; padding: 2px 6px; border-radius: 4px; font-size: 10px; font-weight: bold; margin-left: 8px; }
+
+</style>
+</head>
+<body>
+
+<div class="fixed-nav-top">
+  <header>
+    <h1 id="app-title">DS Master Guide</h1>
+    <div class="controls">
+      <div id="lang-btns">
+        <button id="bn-btn" class="btn-pill active" onclick="updateLang('bn')">BN</button>
+        <button id="en-btn" class="btn-pill" onclick="updateLang('en')">EN</button>
+      </div>
+      <button class="btn-pill" onclick="cycleTheme()" id="theme-btn">🎨 Dark</button>
+    </div>
+  </header>
+  <div class="tabs-wrapper">
+    <div class="tabs" id="tabs-root"></div>
+  </div>
+</div>
+
+<main id="content-root"></main>
+
+<script>
+const appData = {
+  ui: {
+    title: { bn: "ডেটা স্ট্রাকচার গাইড", en: "Data Structure Guide" },
+    explanationLabel: { bn: "বোঝার জন্য (Explanation)", en: "For Understanding" },
+    definitionLabel: { bn: "লিখার জন্য (Definition)", en: "For Exam/Definition" }
+  },
+  categories: [
+    { id: "linear", bn: "Stack & Queue", en: "Stack & Queue" },
+    { id: "lists", bn: "Array & Linked List", en: "Array & Linked List" },
+    { id: "trees", bn: "Trees & BST", en: "Trees & BST" },
+    { id: "heaps", bn: "Heaps & Graphs", en: "Heaps & Graphs" },
+    { id: "extra", bn: "Operations & Expr", en: "Operations & Expr" },
+    { id: "strategy", bn: "Exam Strategy 🔥", en: "Exam Strategy 🔥" },
+    { id: "quiz", bn: "কুইজ (Quiz)", en: "Quiz" }
+  ],
+  notes: {
+    linear: [
+      {
+        id: "queue_adv",
+        title: { bn: "Queue (FIFO)", en: "Queue (FIFO)" },
+        explanation: { bn: "Queue মানে লাইনের মতো (যেমন বাসের লাইন)। আগে যে ঢুকবে, আগে বের হবে।", en: "Think of it like a bus line. The person who arrives first gets on first." },
+        definition: { bn: "A Queue is a linear data structure that follows the FIFO (First In First Out) principle, where the element inserted first is removed first.", en: "A Queue is a linear data structure that follows the FIFO (First In First Out) principle, where the element inserted first is removed first." }
+      },
+      {
+        id: "stack_adv",
+        title: { bn: "Stack (LIFO)", en: "Stack (LIFO)" },
+        explanation: { bn: "Stack মানে বইয়ের স্তূপ। উপরে যেটা রাখবে, সেটাই আগে বের হবে।", en: "Think of it like a stack of books. The one you put on top is the first one you take off." },
+        definition: { bn: "A Stack is a linear data structure that follows the LIFO (Last In First Out) principle, where the last inserted element is removed first.", en: "A Stack is a linear data structure that follows the LIFO (Last In First Out) principle, where the last inserted element is removed first." }
+      }
+    ],
+    lists: [
+      {
+        id: "array_adv",
+        title: { bn: "Array", en: "Array" },
+        explanation: { bn: "স্মৃতিতে একটার পর একটা ঘর সাজানো থাকে। সাইজ আগে থেকেই বলে দিতে হয়।", en: "Continuous blocks in memory. Size must be fixed at the start." },
+        definition: { bn: "An Array is a collection of elements stored in contiguous memory locations.", en: "An Array is a collection of elements stored in contiguous memory locations." }
+      },
+      {
+        id: "ll_adv",
+        title: { bn: "Linked List", en: "Linked List" },
+        explanation: { bn: "একদম ট্রেনের বগির মতো। একটা বগি (Node) পরেরটার সাথে শিকল (Pointer) দিয়ে যুক্ত থাকে।", en: "Like a train. One coach (Node) is connected to the next via a coupler (Pointer)." },
+        definition: { bn: "A Linked List is a linear data structure where elements (nodes) are connected using pointers.", en: "A Linked List is a linear data structure where elements (nodes) are connected using pointers." }
+      },
+      {
+        id: "ll_types",
+        title: { bn: "Linked List Types", en: "Linked List Types" },
+        explanation: { bn: "Singly: শুধু সামনে যাওয়া যায়। Doubly: সামনে এবং পিছনে দুই দিকেই যাওয়া যায়।", en: "Singly: One-way street. Doubly: Two-way street." },
+        definition: { bn: "Singly Linked List: Each node points to the next node. Doubly Linked List: Each node has pointers to both previous and next nodes.", en: "Singly Linked List: Each node points to the next node. Doubly Linked List: Each node has pointers to both previous and next nodes." }
+      }
+    ],
+    trees: [
+      {
+        id: "tree_adv",
+        title: { bn: "Tree & Binary Tree", en: "Tree & Binary Tree" },
+        explanation: { bn: "গাছের মতো গঠন কিন্তু রুট থাকে উপরে। Binary Tree-তে এক জনের সর্বোচ্চ ২টা সন্তান (Child) থাকে।", en: "Hierarchical structure. In a Binary tree, a node can have 0, 1, or maximum 2 children." },
+        definition: { bn: "A Tree is a hierarchical structure with a root and child nodes. A Binary Tree is a tree where each node has at most two children.", en: "A Tree is a hierarchical structure with a root and child nodes. A Binary Tree is a tree where each node has at most two children." }
+      },
+      {
+        id: "bst_adv",
+        title: { bn: "Binary Search Tree (BST)", en: "Binary Search Tree (BST)" },
+        explanation: { bn: "শর্ত হলো: বাম পাশ সবসময় রুট থেকে ছোট হবে, আর ডান পাশ সবসময় বড় হবে।", en: "Rule: Left subtree < Root < Right subtree. Makes searching very fast." },
+        definition: { bn: "A BST is a binary tree where the left subtree contains smaller values and the right subtree contains larger values than the root.", en: "A BST is a binary tree where the left subtree contains smaller values and the right subtree contains larger values than the root." }
+      }
+    ],
+    heaps: [
+      {
+        id: "heap_adv",
+        title: { bn: "Heap (Max & Min)", en: "Heap (Max & Min)" },
+        explanation: { bn: "বিশেষ ধরনের ট্রি। Max Heap-এ বাবা সবসময় বড়, Min Heap-এ বাবা ছোট।", en: "Special complete binary tree. Max Heap: Parent is boss. Min Heap: Child is boss." },
+        definition: { bn: "A Heap is a complete binary tree. Max Heap: Parent node >= children. Min Heap: Parent node <= children.", en: "A Heap is a complete binary tree. Max Heap: Parent node >= children. Min Heap: Parent node <= children." }
+      },
+      {
+        id: "graph_adv",
+        title: { bn: "Graph & Representation", en: "Graph & Representation" },
+        explanation: { bn: "বিন্দু (Node) আর তাদের মধ্যেকার রাস্তা (Edge)। ম্যাপের মতো চিন্তা করো।", en: "Nodes (vertices) and their connections (edges). Think of a road map." },
+        definition: { bn: "A Graph consists of vertices and edges. It can be represented using an Adjacency Matrix (2D array) or Adjacency List (list of lists).", en: "A Graph consists of vertices and edges. It can be represented using an Adjacency Matrix (2D array) or Adjacency List (list of lists)." }
+      }
+    ],
+    extra: [
+      {
+        id: "ops_adv",
+        title: { bn: "Insertion & Deletion", en: "Insertion & Deletion" },
+        explanation: { bn: "Insert মানে ডেটা ঢোকানো, Delete মানে ডেটা বের করে দেওয়া।", en: "Insert means putting data in, Delete means taking it out." },
+        definition: { bn: "Insertion: Adding an element to a data structure. Deletion: Removing an element from a data structure.", en: "Insertion: Adding an element to a data structure. Deletion: Removing an element from a data structure." }
+      },
+      {
+        id: "algebra_adv",
+        title: { bn: "Algebraic Expression", en: "Algebraic Expression" },
+        explanation: { bn: "অক্ষর, সংখ্যা আর চিহ্ন (যেমন +, -) এর মিলন।", en: "Combination of variables, constants, and operators." },
+        definition: { bn: "An Algebraic Expression is a combination of variables, constants, and operators representing a value or relationship.", en: "An Algebraic Expression is a combination of variables, constants, and operators representing a value or relationship." }
+      }
+    ],
+    strategy: [
+      {
+        id: "strat_1",
+        title: { bn: "শর্ট প্রশ্নের জন্য কৌশল", en: "Strategy for Short Questions" },
+        explanation: { bn: "শুধুমাত্র Definition অংশটুকু মুখস্থ করবে (English)। ১-২ মার্কের জন্য এটুকুই যথেষ্ট।", en: "Memorize only the Definition section. This is enough for 1-2 marks." },
+        definition: { bn: "English Definition is mandatory for exams.", en: "English Definition is mandatory for exams." }
+      },
+      {
+        id: "strat_2",
+        title: { bn: "বড় প্রশ্নের জন্য কৌশল", en: "Strategy for Long Questions" },
+        explanation: { bn: "Definition + উদাহরণ + চিত্র (Diagram) দিতেই হবে। চিত্র দিলে মার্কস ভালো পাওয়া যায়।", en: "Definition + Example + Diagram. Diagrams ensure full marks." },
+        definition: { bn: "Definition + Diagram + Example = Full Marks.", en: "Definition + Diagram + Example = Full Marks." }
+      }
+    ]
+  },
+  quiz: [
+    {
+      q: { bn: "Stack কোন নীতি অনুসরণ করে?", en: "Which principle does Stack follow?" },
+      options: [{ bn: "FIFO", en: "FIFO" }, { bn: "LIFO", en: "LIFO" }, { bn: "Random", en: "Random" }],
+      ans: 1,
+      exp: { bn: "Stack হলো LIFO (Last In First Out)।", en: "Stack is LIFO (Last In First Out)." }
+    },
+    {
+      q: { bn: "BST-তে ডান পাশের ভ্যালু রুট থেকে কেমন হয়?", en: "In BST, right side values are ___ than root?" },
+      options: [{ bn: "ছোট", en: "Smaller" }, { bn: "বড়", en: "Larger" }, { bn: "সমান", en: "Equal" }],
+      ans: 1,
+      exp: { bn: "ডান দিকে সবসময় বড় ভ্যালু থাকে।", en: "Right subtree always has larger values." }
+    },
+    {
+      q: { bn: "BFS ট্রাভার্সালে কোন ডেটা স্ট্রাকচার ব্যবহার করা হয়?", en: "Which DS is used in BFS traversal?" },
+      options: [{ bn: "Stack", en: "Stack" }, { bn: "Queue", en: "Queue" }, { bn: "Tree", en: "Tree" }],
+      ans: 1,
+      exp: { bn: "BFS এর জন্য Queue প্রয়োজন হয়।", en: "Queue is used for Level-wise (BFS) traversal." }
+    }
+  ]
+};
+
+// Application State
+let currentLang = 'bn';
+let currentTheme = 0; 
+let activeCategory = 'linear';
+let expandedCards = new Set();
+let solvedQuiz = new Array(appData.quiz.length).fill(null);
+
+function cycleTheme() {
+  currentTheme = (currentTheme + 1) % 3;
+  const body = document.body;
+  const btn = document.getElementById('theme-btn');
+  body.classList.remove('theme-warm', 'theme-light');
+  if(currentTheme === 1) { body.classList.add('theme-warm'); btn.innerText = "🎨 Warm"; }
+  else if(currentTheme === 2) { body.classList.add('theme-light'); btn.innerText = "🎨 Light"; }
+  else { btn.innerText = "🎨 Dark"; }
+}
+
+function updateLang(lang) {
+  currentLang = lang;
+  document.getElementById('bn-btn').classList.toggle('active', lang === 'bn');
+  document.getElementById('en-btn').classList.toggle('active', lang === 'en');
+  renderApp();
+}
+
+function switchTab(id) {
+  activeCategory = id;
+  expandedCards.clear();
+  renderTabs();
+  renderContent();
+}
+
+function toggleCard(id) {
+  if (expandedCards.has(id)) expandedCards.delete(id);
+  else expandedCards.add(id);
+  renderContent();
+}
+
+function renderApp() {
+  document.getElementById('app-title').innerText = appData.ui.title[currentLang];
+  renderTabs();
+  renderContent();
+}
+
+function renderTabs() {
+  const root = document.getElementById('tabs-root');
+  root.innerHTML = appData.categories.map(cat => `
+    <div class="tab ${activeCategory === cat.id ? 'active' : ''}" onclick="switchTab('${cat.id}')">
+      ${cat[currentLang]}
+    </div>
+  `).join('');
+}
+
+function renderContent() {
+  const root = document.getElementById('content-root');
+  root.innerHTML = "";
+
+  if (activeCategory === 'quiz') {
+    renderQuiz(root);
+    return;
+  }
+
+  const items = appData.notes[activeCategory] || [];
+  root.innerHTML = items.map(item => `
+    <div class="card ${expandedCards.has(item.id) ? 'open' : ''}" id="${item.id}">
+      <div class="card-header" onclick="toggleCard('${item.id}')">
+        <h3>${item.title[currentLang]}</h3>
+        <span class="chevron">▼</span>
+      </div>
+      <div class="card-body">
+        <div class="content-section">
+          <span class="section-label label-explanation">${appData.ui.explanationLabel[currentLang]}</span>
+          <div class="text-box explanation-text">${item.explanation[currentLang]}</div>
+        </div>
+        <div class="content-section">
+          <span class="section-label label-definition">${appData.ui.definitionLabel[currentLang]}</span>
+          <div class="text-box definition-text">${item.definition[currentLang]}</div>
+        </div>
+      </div>
+    </div>
+  `).join('');
+}
+
+function renderQuiz(root) {
+  root.innerHTML = appData.quiz.map((q, i) => `
+    <div class="quiz-card">
+      <div style="font-weight:700; margin-bottom:10px">${i+1}. ${q.q[currentLang]}</div>
+      ${q.options.map((opt, oi) => {
+        let cls = '';
+        if(solvedQuiz[i] !== null) {
+          if(oi === q.ans) cls = 'correct';
+          else if(oi === solvedQuiz[i]) cls = 'wrong';
+        }
+        return `<button class="quiz-opt ${cls}" onclick="handleQuiz(${i}, ${oi})">${opt[currentLang]}</button>`;
+      }).join('')}
+      <div class="quiz-exp ${solvedQuiz[i] !== null ? 'show' : ''}">💡 ${q.exp[currentLang]}</div>
+    </div>
+  `).join('');
+}
+
+function handleQuiz(qi, oi) {
+  if(solvedQuiz[qi] !== null) return;
+  solvedQuiz[qi] = oi;
+  renderContent();
+}
+
+// Ensure execution happens after DOM and assets are fully ready
+document.addEventListener('DOMContentLoaded', () => {
+    renderApp();
+});
+
+// Extra safety for some browsers
+window.onload = renderApp;
+</script>
+
+</body>
+</html>
